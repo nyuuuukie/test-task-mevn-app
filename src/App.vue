@@ -1,5 +1,5 @@
 <template>
-	<Table />
+	<Table :clients="clients" :providers="providers"/>
 	<!--<ClientForm />-->
 </template>
 
@@ -8,10 +8,32 @@ import Table from './components/Table'
 //import ClientForm from './components/ClientForm'
 
 export default {
-  name: 'App',
-  components: {
+	name: 'App',
+	components: {
 		//ClientForm,
 		Table
+	},
+	data: () => ({
+		clients: [],
+		providers: []
+	}),
+	methods: {
+		async fetchClients() {
+			const res = await fetch('/query/clients');
+			const data = await res.json();
+			console.log(data);
+			return data;
+		},
+		async fetchProviders() {
+			const res = await fetch('/query/providers');
+			const data = await res.json();
+			console.log(data);
+			return data;
+		},
+	},
+	async created() {
+		this.clients = await this.fetchClients();
+		this.providers = await this.fetchProviders();
 	}
 }
 </script>
