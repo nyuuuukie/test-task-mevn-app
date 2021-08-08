@@ -1,20 +1,15 @@
 <template>
 	<div>
-		<br><br>
 		<Clients />
-		<br><br>
-		<ClientForm />	
 	</div>
 </template>
 
-<script>
+	<script>
 import Clients from './components/Clients'
-import ClientForm from './components/ClientForm'
 
 export default {
 	name: 'App',
 	components: {
-		ClientForm,
 		Clients
 	},
 }
@@ -35,6 +30,7 @@ html {
 }
 
 body {
+	margin: 10px;
 	min-width: 200px;
 	display: flex;
 	justify-content: center;

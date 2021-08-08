@@ -1,26 +1,30 @@
 <template>
-	<div class="container">
-		<div class="title">
-			<div class="header-elem">
-				<Header text="Clients"/>
+	<div class="window">
+		<div class="container">
+			<div class="title">
+				<div class="header-elem">
+					<Header text="Clients"/>
+				</div>
+				<div class="btn-elem">
+					<Button text="New Client" type="regular"/>
+				</div>
 			</div>
-			<div class="btn-elem">
-				<Button text="New Client" type="regular"/>
+			<div id="body">
+				<Table
+					:clients="clients"
+					:providers="providers"
+				/>
+			</div>
+			<div class="pagination">
+				<Paginator
+					:page="currentPage"
+					@prev-page="switchPage('prev')"
+					@next-page="switchPage('next')"
+				/>
 			</div>
 		</div>
-		<div id="body">
-			<Table
-				:clients="clients"
-				:providers="providers"
-			/>
-		</div>
-		<div class="pagination">
-			<Paginator
-				:page="currentPage"
-				@prev-page="switchPage('prev')"
-				@next-page="switchPage('next')"
-			/>
-		</div>
+		<br>
+		<ClientForm v-if="formOpened" :client="client" :providers="providers"/>
 	</div>
 </template>
 
@@ -29,6 +33,7 @@ import Table from "./Table"
 import Header from './Header'
 import Button from './Button'
 import Paginator from './Paginator'
+import ClientForm from "./ClientForm"
 
 export default {
 	name: 'Clients',
@@ -36,13 +41,16 @@ export default {
 		Header,
 		Button,
 		Table,
-		Paginator
+		Paginator,
+		ClientForm
 	},
 	data: () => ({
 		clients: [],
 		providers: [],
 		currentPage: 1,
-		pageLimit: 10
+		pageLimit: 10,
+		formOpened: true,
+		client: {}
 	}),
 	methods: {
 		async switchPage(state) {			
@@ -89,6 +97,13 @@ export default {
 </script>
 
 <style scoped>
+	.window {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.container {
 		border: 1px solid lightgray;
 		border-collapse: collapse;

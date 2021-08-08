@@ -2,7 +2,7 @@
 	<div class="paginator-box">
 		<div class="page-wrap">
 			<button id="prev-btn" @click="$emit('prev-page')">
-				prev
+				<i class="fas fa-arrow-left"></i>
 			</button>
 		</div>
 		<div class="page-wrap">
@@ -12,7 +12,7 @@
 		</div>
 		<div class="page-wrap">
 			<button id="next-btn" @click="$emit('next-page')">
-				next
+				<i class="fas fa-arrow-right"></i>
 			</button>
 		</div>
 	</div>	
@@ -64,5 +64,9 @@ export default {
 	#next-btn {
 		border-top-right-radius: 3px;
 		border-bottom-right-radius: 3px;
+	}
+
+	i {
+		font-size: 0.6rem;
 	}
 </style>
