@@ -1,6 +1,8 @@
 <template>
 	<div class="client-form-container">
-		<Header text="Edit Client"/>
+		<div class="client-form-header">
+			<Header text="Edit Client"/>
+		</div>
 		<div class="client-form-body">
 				<div class="wrapper">
 					<Input id="input-name" type="text" label="Name: " placeholder="Your name"/>
@@ -20,8 +22,7 @@
 						id="add-prov-btn"
 						type="regular"
 						text="Add Provider"
-					/>
-					
+					/>	
 				</div>
 
 			<div class="providers-list">
@@ -125,14 +126,18 @@ export default {
 	}
 
 	.client-form-container {
-		/*width: 400px;*/
 		box-shadow: 1px 2px 3px #dbdbdb;
 		border: 1px solid #cccccc;
 		border-radius: 3px;
-		width: 50vw;
+		width: 70vw;
+		max-width: 400px;
 		font-size: 10px;
 	}
 	
+	.client-form-header {
+		border-bottom: 1px solid rgb(204, 204, 204);
+	}
+
 	.client-form-body {
 		padding-top: 10px;
 		padding-bottom: 10px;
@@ -152,7 +157,7 @@ export default {
 	.client-form-footer {
 		display: flex;
 		white-space: nowrap;
-		padding: 5px 5px 5px 5px;
+		padding: 10px 5px 10px 5px;
 		height: 10%;
 		border-top: 1px solid rgb(204, 204, 204);
 	}

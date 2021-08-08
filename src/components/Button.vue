@@ -33,8 +33,7 @@ export default {
 <style scoped>
 	button {
     width: 70px;
-    font-size: 0.6rem;
-    font-weight: bold;
+    font-size: 9px;
     margin-left: 5px;
     padding: 5px 5px 5px 5px;
     border-radius: 5px;
@@ -57,7 +56,8 @@ export default {
 
   .regular {
     border: 1px solid rgb(219, 219, 219);
-    color: #666666;
+	font-weight: bold;
+    color: #5f5f5f;
     background: linear-gradient(0deg, #dfdfdf 0%, #f5f5f5 100%);
   }
  

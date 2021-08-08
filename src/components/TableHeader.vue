@@ -16,13 +16,17 @@ export default {
 <style scoped>
 
 tr {
-	box-shadow: 1px 2px 3px #dbdbdb;
-	vertical-align: center;
+	-webkit-box-shadow: 0px 4px 2px -2px rgba(112, 112, 112, 0.6);
+	-moz-box-shadow: 0px 4px 1px rgba(34, 60, 80, 0.6);
+	box-shadow: 0px 1px 3px rgba(163, 163, 163, 0.6);
+	
+	border: 1px solid lightgray;
 	text-align: left;
 }
 
 th {
-	padding: 5px;
+	border: 1px solid lightgray;
+	padding: 7px 10px 7px 10px;
 	color: #313131;
 }
 

@@ -1,40 +1,22 @@
 <template>
-	<Table :clients="clients" :providers="providers"/>
-	<!--<ClientForm />-->
+	<div>
+		<br><br>
+		<Clients />
+		<br><br>
+		<ClientForm />	
+	</div>
 </template>
 
 <script>
-import Table from './components/Table'
-//import ClientForm from './components/ClientForm'
+import Clients from './components/Clients'
+import ClientForm from './components/ClientForm'
 
 export default {
 	name: 'App',
 	components: {
-		//ClientForm,
-		Table
+		ClientForm,
+		Clients
 	},
-	data: () => ({
-		clients: [],
-		providers: []
-	}),
-	methods: {
-		async fetchClients() {
-			const res = await fetch('/query/clients');
-			const data = await res.json();
-			console.log(data);
-			return data;
-		},
-		async fetchProviders() {
-			const res = await fetch('/query/providers');
-			const data = await res.json();
-			console.log(data);
-			return data;
-		},
-	},
-	async created() {
-		this.clients = await this.fetchClients();
-		this.providers = await this.fetchProviders();
-	}
 }
 </script>
 
@@ -53,7 +35,7 @@ html {
 }
 
 body {
-	min-width: 600px;
+	min-width: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
