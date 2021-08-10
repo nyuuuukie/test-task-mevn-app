@@ -2,8 +2,8 @@
 	<div class="provider-box">
 		<input
 			:id="id" type="checkbox"
-			@change="$emit('toggle-prov', id)"
 			v-model="checked"
+			@change="$emit('toggle-prov', id)"
 		/>
 		<label :for="id"></label>
 		

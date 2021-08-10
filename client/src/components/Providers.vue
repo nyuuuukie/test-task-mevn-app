@@ -26,15 +26,16 @@ export default {
 	},
 	methods: {
 		onDelete() {
-
 			//this.providers = this.providers.filter(p => p.id !== provider.id);
-
 			//delete in db;
-		},
+		},	
 		onEdit() {
 
 		}
 	},
+	created() {
+		console.log(this.providers);
+	}
 	
 }
 </script>

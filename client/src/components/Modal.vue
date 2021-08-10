@@ -112,10 +112,11 @@ export default {
 			name: '',
 			email: '',
 			phone: '',
-			providers: [],
+			providers: []
 		},
+		allProvs: [],
 		provider: '',
-		headerText: 'New Client'
+		headerText: ''
 	}),
 	methods: {
 		onToggleProvider(id) {
@@ -152,12 +153,12 @@ export default {
 				
 				
 				//update request
-				API.updateClient(clientId, client);
+				API.updateClient(this.info.clientId, this.client);
 			} else {
 
 				
 				//post request
-				API.addClient(client);
+				API.addClient(this.client);
 			}
 
 		}, 
@@ -166,29 +167,29 @@ export default {
 		},
 		async updateData() {
 			this.client = await API.getClient(this.info.clientId);
-			this.providers = await API.getProviders();
+			this.allProvs = await API.getProviders();
 		}
 	},
 	computed: {
+		//doesnt work with empty array
 		selectedProviders() {
-			return this.providers.map(p => ({
+			return this.allProvs.map(p => ({
 				...p, 
 				check: this.client.providers.includes(p.id)
 			}));
 		}
 	},
 	async created() {
-		console.log(this.info);
-		if (this.info.mode === 'edit') {
-			//await this.updateData();
+		console.log(this.selectedProviders);
+		if (this.info.active.mode === 'edit') {
 			this.client = await API.getClient(this.info.clientId);
-			this.providers = await API.getProviders();
 			
 			this.name = this.client.name;
 			this.email = this.client.email;
 			this.phone = this.client.phone;
 		}
-		this.headerText = this.info.header; 
+		this.allProvs = await API.getProviders();
+		this.headerText = this.info.active.header; 
 	}
 }
 </script>
@@ -241,9 +242,11 @@ export default {
 
 	.modal {
 		position: absolute;
-		/*top:50%;
-		left: 50%;*/
-		z-index: 3;
+		align-self: center;
+		justify-self: center;
+		/*top:0%;*/
+		/*left: calc(50% - 70vw / 2);*/
+		/*z-index: 1;*/
 		
 		background-color: #fdfdfd;
 		box-shadow: 1px 2px 3px #8b8b8b;

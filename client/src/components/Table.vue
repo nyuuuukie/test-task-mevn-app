@@ -52,11 +52,7 @@ export default {
 		async switchPage(state) {			
 			let reqPage = this.page; 
 		
-			//if (!(state in ['prev', 'next']))
-			//	return ;	
-
-			reqPage -= (state === 'prev') ? 1 : 0;
-			reqPage += (state === 'next') ? 1 : 0;
+			reqPage += (state === 'next') ? 1 : -1;
 
 			if (reqPage >= 1) {
 				const pageClients = await API.getPage(reqPage, this.pageLimit);
