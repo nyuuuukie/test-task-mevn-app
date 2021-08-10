@@ -18,10 +18,10 @@ export default {
 tr {
 	-webkit-box-shadow: 0px 4px 2px -2px rgba(112, 112, 112, 0.6);
 	-moz-box-shadow: 0px 4px 1px rgba(34, 60, 80, 0.6);
-	box-shadow: 0px 1px 3px rgba(163, 163, 163, 0.6);
+	box-shadow: 1px 1px 2px rgba(163, 163, 163, 0.6);
 	
-	border: 1px solid lightgray;
 	text-align: left;
+	background: linear-gradient(0deg, #f0f0f0 0%, #fdfdfd 100%);
 }
 
 th {

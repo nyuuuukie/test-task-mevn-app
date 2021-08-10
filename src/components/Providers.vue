@@ -1,7 +1,14 @@
 <template>
 	<div class="providers-box">
 		<div :key="provider.id" v-for="provider in providers">
-			<Provider :name="provider.name" :id="provider.id"></Provider>
+			<Provider
+				:id="provider.id"
+				:name="provider.name"
+				:check="provider.check"
+				@toggle-prov="$emit('toggle-prov', id)"
+				@delete-prov="onDelete()"
+				@edit-prov="onEdit()"
+			/>
 		</div>
 	</div>
 </template>
@@ -11,14 +18,24 @@ import Provider from './Provider'
 
 export default {
 	name: 'Providers',
-	props: {
-		providers: Array
-	},
 	components: {
 		Provider
 	},
-	computed: {
-	}
+	props: {
+		providers: Array,
+	},
+	methods: {
+		onDelete() {
+
+			//this.providers = this.providers.filter(p => p.id !== provider.id);
+
+			//delete in db;
+		},
+		onEdit() {
+
+		}
+	},
+	
 }
 </script>
 
@@ -37,11 +54,11 @@ export default {
 	}
 
 	.providers-box::-webkit-scrollbar-track {
-		box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
 	}
 
 	.providers-box::-webkit-scrollbar-thumb {
-		background-color: rgb(177, 177, 177);
-		outline: 0px solid rgb(192, 192, 192);
+		background: linear-gradient(270deg, #bdbdbd 0%, #fdfdfd 100%);
+		outline: 1px solid rgb(192, 192, 192);
 	}
 </style>

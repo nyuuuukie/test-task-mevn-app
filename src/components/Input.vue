@@ -57,6 +57,6 @@ export default {
 	}
 	label {
 		font-weight: bold;
-		color: #313131;
+		color: #8b8b8b;
 	}
 </style>

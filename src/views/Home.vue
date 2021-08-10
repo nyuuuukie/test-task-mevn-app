@@ -20,10 +20,10 @@
 			</div>
 		</div>
 		<br>
-			<!--v-if="modalOpened"-->
 		<Modal
+			v-show="modalOpened"
 			v-if="modalOpened"
-			:info="modalInfo"
+			:info="info"
 			@close-modal="closeModal()"
 		/>
 	</div>
@@ -45,15 +45,19 @@ export default {
 	},
 	data: () => ({
 		modalOpened: false,
-		modalInfo: {}
+		info: {
+			mode: 'new',
+			clientId: -1
+		}
 	}),
 	methods: {
 		newClient() {
-			this.setModalInfo();
+			this.info.mode = 'new';
 			this.openModal();
 		},
 		editClient(id) {
-			this.setModalInfo(id);
+			this.info.mode = 'edit';
+			this.info.clientId = id;
 			this.openModal();
 		},
 		openModal() {
@@ -62,24 +66,14 @@ export default {
 		closeModal() {
 			this.modalOpened = false;
 		},
-		setModalInfo(id = null) {
-			if (id !== null) {
-				this.modalInfo.mode = 'edit';
-				this.modalInfo.header = 'Edit Client';
-			} else {
-				this.modalInfo.mode = 'new';
-				this.modalInfo.header = 'New Client';
-			}
-			this.modalInfo.clientId = id;
-		}
 	},
 }
 </script>
 
 <style scoped>
 	.container {
-		border: 1px solid #d3d3d3;
-		/*border-collapse: collapse;*/
+		border: 1px solid lightgray;
+		border-collapse: collapse;
 	}
 
 	.title {

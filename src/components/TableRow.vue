@@ -4,7 +4,11 @@
 		<td>{{client.email}}</td>
 		<td>{{client.phone}}</td>
 		<td>{{providersNames}}</td>
-		<td edit><a href="#">Edit</a></td>
+		<td edit
+			@click="$emit('edit-client')"
+		>
+		<a href="#">Edit</a>
+		</td>
 	</tr>
 </template>
 
@@ -12,24 +16,16 @@
 export default {
 	name: 'TableRow',
 	props: {
-		client: {
-			type: Object,
-			default: () => ({
-				name: 'Name',
-				phone: 'Phone',
-				email: 'Email',
-				providers: 'Providers'
-			})
-		},
+		client: Object,
 		providers: Array
 	},
 	computed: {
 		providersNames() {
 			let names = [];
-			this.client.providers.forEach(p => {
-				this.providers.forEach(pr => {
-					if (pr.id === p.id)
-						names.push(pr.name);
+			this.client.providers.forEach(id => {
+				this.providers.forEach(p => {
+					if (id == p.id)
+						names.push(p.name);
 				})
 			});
 			return names.join(',');
@@ -49,8 +45,17 @@ export default {
 		text-align: center;
 	}
 
+	td[edit] a {
+		color: blue;
+	}
+
+	td[edit] a:focus {
+		color: #ff1f47;
+		outline: none;
+	}
+
 	tr:hover {
-		background-color: lightgray;
+		background-color: #eff5f9;
 		padding: lightgray;
 	}
 </style>

@@ -15,7 +15,7 @@ export default {
 
 <style scoped>
 	.header-box {
-		color: rgb(85, 147, 175);
+		color: #3c9bbe;
 		font-weight: bold;
 		font-size: 16px;
 		padding: 10px 10px 10px 10px;

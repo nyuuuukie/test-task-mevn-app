@@ -1,17 +1,17 @@
 <template>
 	<div class="paginator-box">
 		<div class="page-wrap">
-			<button id="prev-btn" @click="$emit('prev-page')">
+			<button class="prev-btn" @click="$emit('prev-page')">
 				<i class="fas fa-arrow-left"></i>
 			</button>
 		</div>
 		<div class="page-wrap">
-			<button id="num-btn">
+			<button class="num-btn">
 				{{page}}
 			</button>
 		</div>
 		<div class="page-wrap">
-			<button id="next-btn" @click="$emit('next-page')">
+			<button class="next-btn" @click="$emit('next-page')">
 				<i class="fas fa-arrow-right"></i>
 			</button>
 		</div>
@@ -50,18 +50,18 @@ export default {
 		outline: none;
 	}
 
-	#prev-btn:hover,
-	#next-btn:hover {
+	.prev-btn:hover,
+	.next-btn:hover {
 		cursor:pointer;
 		filter: brightness(85%);	
 	}
 
-	#prev-btn {
+	.prev-btn {
 		border-top-left-radius: 3px;
 		border-bottom-left-radius: 3px;
 	}
 
-	#next-btn {
+	.next-btn {
 		border-top-right-radius: 3px;
 		border-bottom-right-radius: 3px;
 	}

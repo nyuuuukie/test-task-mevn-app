@@ -4,7 +4,7 @@
 	</div>
 </template>
 
-	<script>
+<script>
 import Clients from './components/Clients'
 
 export default {
@@ -18,15 +18,15 @@ export default {
 <style>
 
 * {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 body {
@@ -35,7 +35,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Arial', sans-serif;
 }
 
 </style>

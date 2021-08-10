@@ -1,6 +1,6 @@
 <template>
 	<button
-		@click="$emit('btn-click', this.id)"
+		@click="$emit('btn-click')"
     @mouseover="mouseOver()"
     :class="type"
 	>
@@ -12,7 +12,6 @@
 export default {
 	name: 'Button',
 	props: {
-    id: String,
     type: String,
 		text: {
 			type: String,
@@ -50,15 +49,15 @@ export default {
 
   .warning {
     border: 1px solid #c03434;
-    color: #f1f1f1;
-    background: linear-gradient(0deg, #c03434 0%, #fa5c5c 100%);
+    color: #fdfdfd;
+    background: linear-gradient(0deg, #bd000e 0%, #ff1f47 100%);
   }
 
   .regular {
     border: 1px solid rgb(219, 219, 219);
 	font-weight: bold;
     color: #5f5f5f;
-    background: linear-gradient(0deg, #dfdfdf 0%, #f5f5f5 100%);
+    background: linear-gradient(0deg, #e5e5e5 0%, #fdfdfd 100%);
   }
  
 </style>
