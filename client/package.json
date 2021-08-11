@@ -20,5 +20,15 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.15.1"
-  }
+  },
+  "author": "Ilnur Timergaliev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mhufflep/mevn-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mhufflep/mevn-app/issues"
+  },
+  "homepage": "https://github.com/mhufflep/mevn-app#readme"
 }

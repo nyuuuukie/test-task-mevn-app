@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server-side of the app",
+  "main": "index.js",
+  "scripts": {
+	"server": "node main.js",
+	"devser": "nodemon main.js"
+  },
+  "keywords": [],
+  "author": "Ilnur Timergaliev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mhufflep/mevn-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mhufflep/mevn-app/issues"
+  },
+  "homepage": "https://github.com/mhufflep/mevn-app#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
