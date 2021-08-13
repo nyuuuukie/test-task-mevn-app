@@ -7,7 +7,7 @@
 		<td edit
 			@click="$emit('edit-client')"
 		>
-		<a href="#">Edit</a>
+			<a href="#">Edit</a>
 		</td>
 	</tr>
 </template>
@@ -22,9 +22,9 @@ export default {
 	computed: {
 		providersNames() {
 			let names = [];
-			this.client.providers.forEach(id => {
+			this.client.providers.forEach(clientProvider => {
 				this.providers.forEach(p => {
-					if (id == p.id)
+					if (clientProvider.id == p.id)
 						names.push(p.name);
 				})
 			});

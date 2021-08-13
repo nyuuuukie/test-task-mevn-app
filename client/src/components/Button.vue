@@ -1,8 +1,8 @@
 <template>
 	<button
 		@click="$emit('btn-click')"
-    @mouseover="mouseOver()"
-    :class="type"
+		@mouseover="mouseOver()"
+		:class="type"
 	>
 	{{ text }}
 	</button>
@@ -59,5 +59,13 @@ export default {
     color: #5f5f5f;
     background: linear-gradient(0deg, #e5e5e5 0%, #fdfdfd 100%);
   }
+
+  .accept {
+	border: 1px solid rgb(219, 219, 219);
+	font-weight: bold;
+    color: #494949;
+    background: linear-gradient(0deg, #8dff93 0%, #86ff14c0 100%);
+  }
+
  
 </style>

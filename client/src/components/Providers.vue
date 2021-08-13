@@ -2,12 +2,12 @@
 	<div class="providers-box">
 		<div :key="provider.id" v-for="provider in providers">
 			<Provider
-				:id="provider.id"
+				:id="provider._id"
 				:name="provider.name"
 				:check="provider.check"
-				@toggle-prov="$emit('toggle-prov', id)"
-				@delete-prov="onDelete()"
-				@edit-prov="onEdit()"
+				@toggle-prov="$emit('toggle-prov', provider._id)"
+				@delete-prov="$emit('delete-prov', provider._id)"
+				@edit-prov="$emit('edit-prov', provider._id)"
 			/>
 		</div>
 	</div>
@@ -25,16 +25,9 @@ export default {
 		providers: Array,
 	},
 	methods: {
-		onDelete() {
-			//this.providers = this.providers.filter(p => p.id !== provider.id);
-			//delete in db;
-		},	
-		onEdit() {
-
-		}
 	},
 	created() {
-		console.log(this.providers);
+		//console.log(this.providers);
 	}
 	
 }

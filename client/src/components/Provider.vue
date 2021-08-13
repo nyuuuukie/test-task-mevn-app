@@ -12,10 +12,10 @@
 		</label>
 		
 		<i class="far fa-edit" 
-			@click="$emit('edit-prov')">
+			@click="$emit('edit-prov', id)">
 		</i>
 		<i class="fas fa-trash-alt" 
-			@click="$emit('delete-prov')">
+			@click="$emit('delete-prov', id)">
 		</i>
 	</div>
 </template>
@@ -24,7 +24,7 @@
 export default {
 	name: 'Provider',
 	props: {
-		id: Number,
+		id: String,
 		name: String,
 		check: Boolean
 	},

@@ -3,7 +3,7 @@
 		<div class="modal">
 			<slot name="header">
 				<div class="header">
-					<Header :text="headerText"/>
+					<Header :text="info.active.header"/>
 				</div>
 			</slot>
 
@@ -32,7 +32,7 @@
 							<label for="input-phone">Phone:</label>
 						</div>
 						<div class="right-pane">
-							<input id="input-phone" v-model="client.phone" type="tel" pattern="[789][0-9]{9}" placeholder="012-345-6789"/>
+							<input id="input-phone" v-model="client.phone" @keydown="onChangePhone" type="tel" pattern="[789][0-9]{9}" placeholder="012-345-6789"/>
 						</div>
 					</div>
 					
@@ -43,9 +43,9 @@
 						<div class="right-pane">
 							<input id="input-provider" type="text" v-model="provider" placeholder="e.g. Provider1"/>
 							<Button
-								@btn-click="$emit('add-provider', )"
-								type="regular"
-								text="Add Provider"
+								@btn-click="saveProvider"
+								:type="actButtons.add.type"
+								:text="actButtons.add.text"
 							/>
 						</div>
 					</div>
@@ -56,7 +56,9 @@
 							<Providers 
 								:providers="selectedProviders" 
 								:client="client"
-								@toggle-prov="onToggleProvider"
+								@toggle-prov="toggleProvider"
+								@delete-prov="deleteProvider"
+								@edit-prov="editProvider"
 							/>
 						</div>
 					</div>
@@ -68,20 +70,20 @@
 					<div class="left-panel">
 						<Button
 							@btn-click="deleteClient()"
-							type="warning"
-							text="Delete Client"
+							:type="buttons.delete.type"
+							:text="buttons.delete.text"
 						/>
 					</div>
 					<div class="right-panel">
 						<Button
 							@btn-click="$emit('close-modal')"
-							type="regular"
-							text="Cancel"
+							:type="buttons.cancel.type"
+							:text="buttons.cancel.text"
 						/>
 						<Button 
 							@btn-click="saveClient()"
-							type="regular"
-							text="Save Client"
+							:type="buttons.save.type"
+							:text="buttons.save.text"
 						/>
 					</div>
 				</div>
@@ -116,54 +118,177 @@ export default {
 		},
 		allProvs: [],
 		provider: '',
-		headerText: ''
+		headerText: '',
+		editProviderMode: false,
+		editProviderId: '',
+		buttons: {
+			"saveProv": {
+				type: "accept",
+				text: "Save"
+			},
+			"addProv": {
+				type: "regular",
+				text: "Add provider"
+			},
+			"save": {
+				type: "regular",
+				text: "Save Client"
+			},
+			"delete": {
+				type: "warning",
+				text: "Delete Client"
+			},
+			"cancel": {
+				type: "regular",
+				text: "Cancel"
+			}
+		},
+		actButtons: {
+			add: '',
+			delete: '',
+			cancel: '',
+			save: ''
+		},
 	}),
 	methods: {
-		onToggleProvider(id) {
-			let arr = this.client.providers.filter(p => p.id !== id);
+		checkProviderName() {
+			let opt = {
+				occupied: false,
+				changed: true,
+				//pr: {}
+			}
+
+			//Check if new name is occupied by another provider
+			//And if the name of current provider has changed
+			this.allProvs.forEach(p => {
+				if (p._id !== this.editProviderId) {
+					if (p.name === this.provider)
+						opt.occupied = true;
+				}
+				else {
+					if (p.name === this.provider) {
+						opt.changed = false;
+					}
+					//opt.pr = {...p};
+				}
+			});
+			return opt;
+		},
+		async changeProvider() {
+			let {occupied, changed} = this.checkProviderName();
+			let pr = this.allProvs.find(p => 
+				p._id === this.editProviderId
+			);
+
+			if (occupied) {
+				alert('This name is occupied!');
+			}
+
+			console.log(pr);
+
+			if (changed && !occupied) {
+				pr.name = this.provider;
+				try {
+					const updProvider = await API.updateProvider(pr);
+					if (updProvider !== null) {
+						console.log(updProvider);
+						await this.updateLocalProvider(updProvider);
+						this.AddProviderMode();
+					}
+				} catch (err) {
+					console.error(err.message);
+				}
+			}
+		},
+		async addProvider() {
+			const provider = {name: this.provider};
+
+			try {
+				const added = await API.addProvider(provider);
+				await this.updateLocalProvider(added);
+			} catch (err) {
+				console.error(err);
+			}
+		},
+		async saveProvider() {
+			if (this.provider === '') {
+				alert("Provider's name cannot be empty!");
+				return ;
+			}
+			this.editProviderMode ? 
+				await this.changeProvider():
+				await this.addProvider();
 			
-			if (arr.length === this.client.providers.length)
-				arr.push(id);
-
-			this.client.providers = arr;
-			console.log(arr);
+			this.provider = '';
 		},
-		onEditProvider(id) {
-			let p = this.client.providers.filter(p => p.id === id);
-			this.provider = p.name;
-
-			//change button 
+		AddProviderMode() {
+			this.editProviderId = "";
+			this.editProviderMode = false;
+			this.actButtons.add = this.buttons.addProv;
 		},
-		onDeleteProvider(id) {
-			//cascade deleting of provider
-			//page reload
-			//client reload
+		async updateLocalProvider() {
+			//provider
+			this.allProvs = await API.getProviders();
+			
+			//let found = false;
+
+			//this.allProvs.forEach(p => {
+			//	if (p._id === provider._id) {
+			//		p.name === provider.name;
+			//		found = true;
+			//	}
+			//});
+			//if (!found)
+			//	this.allProvs.push(provider);
+		},
+		toggleProvider(id) {
+			const prevLength = this.client.providers.length;
+			this.client.providers = this.client.providers.filter(
+				p => p.id !== id
+			);
+			if (this.client.providers.length === prevLength)
+				this.client.providers.push({"id": id});
+		},
+		editProvider(id) {
+			console.log(id);
+			console.log(this.allProvs);
+			let pr = this.allProvs.find(p => p._id === id);
+			//console.log(pr);
+			this.provider = pr.name;
+
+			//change button
+			this.editProviderId = id;
+			this.editProviderMode = true;
+			this.actButtons.add = this.buttons.saveProv;
+			//this.switchAddProviderMode(id);
+		},
+		deleteProvider(id) {
+			//loader start
 			if (API.deleteProvider(id))
 				this.client.providers = 
 					this.client.providers.filter(p => p.id === id);
+			//loader stop
+
+			//emit page reload or provider updating
 		},
-		deleteClient() {
-			if (API.deleteClient(this.info.clientId))
+		async deleteClient() {
+			if (await API.deleteClient(this.info.clientId))
 				this.$emit('close-modal');
 
-			//page reload
+			//emit page reload
 		},
-		saveClient() {
+		async saveClient() {
+			//start loader
 			if (this.info.mode === 'edit') {
-				
-				
-				//update request
-				API.updateClient(this.info.clientId, this.client);
+				await API.updateClient(this.client); //if -> reload
 			} else {
-
-				
-				//post request
-				API.addClient(this.client);
+				await API.addClient(this.client); //if -> reload
 			}
-
+			//stop loader
+			this.$emit('close-modal');
 		}, 
 		onChangePhone() {
-
+			//this.client.phone += "!";
 		},
 		async updateData() {
 			this.client = await API.getClient(this.info.clientId);
@@ -171,8 +296,9 @@ export default {
 		}
 	},
 	computed: {
-		//doesnt work with empty array
 		selectedProviders() {
+			if (this.allProvs.lenght === 0)
+				return [];
 			return this.allProvs.map(p => ({
 				...p, 
 				check: this.client.providers.includes(p.id)
@@ -180,7 +306,13 @@ export default {
 		}
 	},
 	async created() {
-		console.log(this.selectedProviders);
+		this.actButtons.add = this.buttons.addProv;
+		this.actButtons.delete = this.buttons.delete;
+		this.actButtons.save = this.buttons.save;
+		this.actButtons.cancel = this.buttons.cancel;
+
+		this.allProvs = await API.getProviders();
+
 		if (this.info.active.mode === 'edit') {
 			this.client = await API.getClient(this.info.clientId);
 			
@@ -188,8 +320,6 @@ export default {
 			this.email = this.client.email;
 			this.phone = this.client.phone;
 		}
-		this.allProvs = await API.getProviders();
-		this.headerText = this.info.active.header; 
 	}
 }
 </script>

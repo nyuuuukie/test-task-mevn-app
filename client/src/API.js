@@ -1,119 +1,111 @@
 export default class API {
 
-	static async getPage(page, limit) {
-		const query = `/query/clients?
-								_limit=${limit}&
-								_page=${page}`;
-		const res = await fetch(query);
-		const data = await res.json();
-		console.log("SAPI page: " + data);
+	static async getData(query, opt = {}, expStatus = 200) {
+		const res = await fetch(query, opt);
 
-		//return data;
-		return this.flattenProvidersId(data);
+		if (res.status !== expStatus)
+			return null;
+
+		const data = await res.json();
+		return data;
+	}
+
+	static async getPageClients(page, limit) {
+		const query = `/query/pages?page=${page}&limit=${limit}`;
+
+		return await this.getData(query);
 	}
 
 	static async getClients() {
-		const res = await fetch('/query/clients');
-		let data = await res.json();
-		console.log("SAPI clients: " + data);
-		data = this.flattenProvidersId(data);
+		const query = '/query/clients';
 
-		return data;
+		return await this.getData(query);
 	}
 	static async getClient(id) {
-		const res = await fetch(`/query/clients/${id}`);
-		let data = await res.json();
-		console.log("SAPI client: " + data);
-		
-		data = this.flattenProvidersId(data);
-		return data;
+		const query = `/query/clients/${id}`;
+
+		return await this.getData(query);
 	}
 
 	static async addClient(client) {
-		const res = await fetch(`/query/clients/`, {
+		const query = '/query/clients/';
+		const opt = {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json',
 			},
 			body: JSON.stringify(client)
-		});
+		};
 
-		const data = await res.json();
-
-		return data;
+		return await this.getData(query, opt, 201);
 	}
-	static async updateClient(clientId, client) {
-		const res = await fetch(`/query/clients/${clientId}`, {
+
+	static async updateClient(client) {
+		const query = `/query/clients/${client._id}`;
+		const opt = {
 			method: 'PATCH',
 			header: {
 				'Content-type': 'application/json'
 			},
 			body: JSON.stringify(client)
-		});
-
-		let data = await res.json();
-		data = this.flattenProvidersId(data);
-		return data;
-	}
-
-	static flattenProvidersId(clients) {
-		if (Array.isArray(clients)) {
-			clients.forEach(client => {
-				client.providers = this.getClientProvidersId(client);
-			});
-		} else {
-			clients.providers = this.getClientProvidersId(clients);
 		}
-		return clients;
-	}
 
-	static getClientProvidersId(client) {
-		return client.providers.map(pr => pr.id);
+		return await this.getData(query, opt);
 	}
 
 	static async deleteClient(id) {
-		const res = await fetch(`/query/clients/${id}`, {
+		const query = `/query/clients/${id}`;
+		const opt = {
 			method: 'DELETE'
-		});
+		}
 
-		return (res.status === 200) ? true : false;
+		return await this.getData(query, opt);
 	}
 
 	static async getProviders() {
-		const res = await fetch('/query/providers');
-		const data = await res.json();
-		console.log("SAPI providers: " + data);
-		return data;
+		const query = '/query/providers';
+
+		return await this.getData(query);
 	}
+
 	static async getProvider(id) {
-		const res = await fetch(`/query/providers/${id}`);
-		const data = await res.json();
-		console.log("SAPI provider: " + data);
-		return data;
+		const query = `/query/providers/${id}`;
+		
+		return await this.getData(query);
 	}
+
+	static async addProvider(provider) {
+		const query = '/query/providers/';
+		const opt = {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify(provider)
+		}
+
+		return await this.getData(query, opt, 201);
+	}
+
+	static async updateProvider(provider) {
+		const query = `/query/providers/${provider._id}`;
+		const opt = {
+			method: 'PATCH',
+			headers: {
+				'Content-type': 'application/json'
+			},
+			body: JSON.stringify(provider)
+		};
+
+		return await this.getData(query, opt);
+	}
+
 	static async deleteProvider(id) {
-		const res = await fetch(`/query/providers/${id}`, {
+		const query = `/query/providers/${id}`;
+		const opt = {
 			method: 'DELETE'
-		});
-
-		return (res.status === 200) ? true : false;
-		//cascade deleting
-		//page reloading 
-	}
-	static async toggleProvider(clientId, providerId) {
-		const client = await this.getClient(clientId);
-
-		let deleted = null;
-		client.providers.forEach((provider, i) => {
-			if (provider.id === providerId) {
-				deleted = client.providers.splice(i, 1);
-			}
-		});
-
-		if (deleted === null)
-			client.providers.push({"id": providerId});
-
-		const upd = this.updateClient(client);
-		return upd;
+		};
+		
+		return await this.getData(query, opt);
 	}
 }

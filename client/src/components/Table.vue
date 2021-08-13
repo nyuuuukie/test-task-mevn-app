@@ -6,10 +6,10 @@
 			/>
 			<TableRow	
 				v-for="client in clients"
-				:key="client.name"
+				:key="client._id"
 				:client="client"
 				:providers="providers"
-				@edit-client="$emit('edit-client', client.id)"
+				@edit-client="$emit('edit-client', client._id)"
 			/>
 		</table>
 		<div class="pagination">
@@ -55,7 +55,7 @@ export default {
 			reqPage += (state === 'next') ? 1 : -1;
 
 			if (reqPage >= 1) {
-				const pageClients = await API.getPage(reqPage, this.pageLimit);
+				const pageClients = await API.getPageClients(reqPage, this.pageLimit);
 				
 				if (pageClients.length !== 0) {
 					this.clients = pageClients;
@@ -65,7 +65,7 @@ export default {
 		}
 	},
 	async created() {
-		this.clients = await API.getPage(this.page, this.pageLimit);
+		this.clients = await API.getPageClients(this.page, this.pageLimit);
 		this.providers = await API.getProviders();
 	}
 }

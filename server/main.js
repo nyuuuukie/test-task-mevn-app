@@ -8,17 +8,16 @@ const app = express();
 const port = process.env.PORT; 
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 //db connection
-console.log(process.env.DB_URI);
 
 const dbuser = process.env.DB_USER;
 const dbpswd = process.env.DB_PSWD;
 const dbprefix = process.env.DB_PREFIX;
-const dbreplicas = process.env.DB_REPLICAS;
+const dbhosts = process.env.DB_HOSTS;
 
-const connectionString = `${dbprefix}${dbuser}:${dbpswd}@${dbreplicas}`;
+const connectionString = `${dbprefix}${dbuser}:${dbpswd}@${dbhosts}`;
 
 mongoose.connect(connectionString, {
 	useUnifiedTopology: true,
@@ -33,11 +32,16 @@ mongoose.connect(connectionString, {
 })
 
 //routes prefixes
-app.use('/', require('./routes/routes'))
-app.use('/query/clients', require('./routes/routes'))
-app.use('/query/providers', require('./routes/routes'))
+//app.use('/', require('./routes/routes'))
+app.use('/clients/', require('./routes/client-routes'))
+app.use('/pages/', require('./routes/page-routes'))
+app.use('/providers/', require('./routes/provider-routes'))
 
-
+app.use(function (err, req, res, next) {
+	console.error(err.stack)
+	res.status(500).send('Something broke!')
+});
+ 
 //production settings
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(__dirname + '/dist/'));
@@ -47,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(port, () => {
-	console.log(`Server is running at http://localhost:${port}`);
+	console.log(`Running at http://localhost:${port}`);
 })
 
 
