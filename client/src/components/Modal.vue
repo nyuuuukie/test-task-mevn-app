@@ -52,8 +52,9 @@
 
 					<div class="wrapper">
 						<div class="left-pane"></div>
-						<div class="right-pane">
+						<div class="right-pane" >
 							<Providers 
+								v-if="allProvs.length !== 0"
 								:providers="selectedProviders" 
 								:client="client"
 								@toggle-prov="toggleProvider"
@@ -155,7 +156,6 @@ export default {
 			let opt = {
 				occupied: false,
 				changed: true,
-				//pr: {}
 			}
 
 			//Check if new name is occupied by another provider
@@ -166,10 +166,8 @@ export default {
 						opt.occupied = true;
 				}
 				else {
-					if (p.name === this.provider) {
+					if (p.name === this.provider)
 						opt.changed = false;
-					}
-					//opt.pr = {...p};
 				}
 			});
 			return opt;
@@ -184,14 +182,14 @@ export default {
 				alert('This name is occupied!');
 			}
 
-			console.log(pr);
+			//console.log(pr);
 
 			if (changed && !occupied) {
 				pr.name = this.provider;
 				try {
 					const updProvider = await API.updateProvider(pr);
 					if (updProvider !== null) {
-						console.log(updProvider);
+						//console.log(updProvider);
 						await this.updateLocalProvider(updProvider);
 						this.AddProviderMode();
 					}
@@ -227,7 +225,6 @@ export default {
 			this.actButtons.add = this.buttons.addProv;
 		},
 		async updateLocalProvider() {
-			//provider
 			this.allProvs = await API.getProviders();
 			
 			//let found = false;
@@ -262,11 +259,14 @@ export default {
 			this.actButtons.add = this.buttons.saveProv;
 			//this.switchAddProviderMode(id);
 		},
-		deleteProvider(id) {
+		async deleteProvider(id) {
 			//loader start
-			if (API.deleteProvider(id))
+			if (await API.deleteProvider(id)) {
 				this.client.providers = 
 					this.client.providers.filter(p => p.id === id);
+				await this.updateLocalProvider();
+			}
+
 			//loader stop
 
 			//emit page reload or provider updating

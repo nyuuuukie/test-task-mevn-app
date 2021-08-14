@@ -63,8 +63,8 @@ export default {
   .accept {
 	border: 1px solid rgb(219, 219, 219);
 	font-weight: bold;
-    color: #494949;
-    background: linear-gradient(0deg, #8dff93 0%, #86ff14c0 100%);
+    color: #e9e9e9;
+    background: linear-gradient(0deg, #006caa 0%, #557dffc0 100%);
   }
 
  
