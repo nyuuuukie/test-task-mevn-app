@@ -143,10 +143,9 @@ module.exports = class API {
 	static async updateProvider(req, res) {
 		const id = req.params.id;
 		const provider = req.body;
-		console.log(req);
+
 		try {
 			const updated = await Provider.replaceOne({"_id": id}, provider);
-			//const updated = await Provider.findByIdAndUpdate(id, provider);
 			res.status(200).json(updated);
 		} catch (err) {
 			res.status(404).json({
@@ -171,6 +170,7 @@ module.exports = class API {
 			//});
 
 			const data = await Provider.findByIdAndDelete(id); 
+			const data2 = await Client.updateMany({}, { $pull: { providers: { $elemMatch: { id: id } } } });
 			
 				// note that if you have populated the Event documents to
 				// the person documents, you have to extract the id from the

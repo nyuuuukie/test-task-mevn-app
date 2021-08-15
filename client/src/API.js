@@ -44,7 +44,7 @@ export default class API {
 		const query = `/query/clients/${client._id}`;
 		const opt = {
 			method: 'PATCH',
-			header: {
+			headers: {
 				'Content-type': 'application/json'
 			},
 			body: JSON.stringify(client)

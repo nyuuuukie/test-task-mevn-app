@@ -1,6 +1,6 @@
 <template>
 	<div class="providers-box">
-		<div :key="provider.id" v-for="provider in providers">
+		<div :key="provider._id" v-for="provider in providers">
 			<Provider
 				:id="provider._id"
 				:name="provider.name"

@@ -24,7 +24,7 @@ export default {
 			let names = [];
 			this.client.providers.forEach(clientProvider => {
 				this.providers.forEach(p => {
-					if (clientProvider.id == p.id)
+					if (clientProvider.id == p._id)
 						names.push(p.name);
 				})
 			});

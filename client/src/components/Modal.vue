@@ -32,7 +32,7 @@
 							<label for="input-phone">Phone:</label>
 						</div>
 						<div class="right-pane">
-							<input id="input-phone" v-model="client.phone" @keydown="onChangePhone" type="tel" pattern="[789][0-9]{9}" placeholder="012-345-6789"/>
+							<input id="input-phone" v-model="client.phone" @input="onChangePhone()" type="tel" pattern="[789][0-9]{9}" placeholder="012-345-6789"/>
 						</div>
 					</div>
 					
@@ -70,6 +70,7 @@
 				<div class="footer">
 					<div class="left-panel">
 						<Button
+							v-if="info.active.mode === 'edit'"
 							@btn-click="deleteClient()"
 							:type="buttons.delete.type"
 							:text="buttons.delete.text"
@@ -95,6 +96,7 @@
 
 <script>
 import API from '../API'
+import pmask from '../plug-in/pmask'
 
 import Header from './Header'
 import Button from './Button'
@@ -119,7 +121,7 @@ export default {
 		},
 		allProvs: [],
 		provider: '',
-		headerText: '',
+		headerText: '',	
 		editProviderMode: false,
 		editProviderId: '',
 		buttons: {
@@ -182,14 +184,12 @@ export default {
 				alert('This name is occupied!');
 			}
 
-			//console.log(pr);
-
 			if (changed && !occupied) {
 				pr.name = this.provider;
 				try {
 					const updProvider = await API.updateProvider(pr);
+
 					if (updProvider !== null) {
-						//console.log(updProvider);
 						await this.updateLocalProvider(updProvider);
 						this.AddProviderMode();
 					}
@@ -245,19 +245,18 @@ export default {
 			);
 			if (this.client.providers.length === prevLength)
 				this.client.providers.push({"id": id});
+			console.log(this.client.providers);
 		},
 		editProvider(id) {
-			console.log(id);
-			console.log(this.allProvs);
+			//console.log(id);
+			//console.log(this.allProvs);
 			let pr = this.allProvs.find(p => p._id === id);
-			//console.log(pr);
 			this.provider = pr.name;
 
 			//change button
 			this.editProviderId = id;
 			this.editProviderMode = true;
 			this.actButtons.add = this.buttons.saveProv;
-			//this.switchAddProviderMode(id);
 		},
 		async deleteProvider(id) {
 			//loader start
@@ -279,7 +278,8 @@ export default {
 		},
 		async saveClient() {
 			//start loader
-			if (this.info.mode === 'edit') {
+			if (this.info.active.mode === 'edit') {
+				console.log(this.client);
 				await API.updateClient(this.client); //if -> reload
 			} else {
 				await API.addClient(this.client); //if -> reload
@@ -287,8 +287,24 @@ export default {
 			//stop loader
 			this.$emit('close-modal');
 		}, 
-		onChangePhone() {
-			//this.client.phone += "!";
+		onChangePhone() {	
+			const raw = this.client.phone.replace(/\D/g, '');
+
+			this.client.phone = pmask.mask(raw);
+
+			//const chunks = raw.match(/.{1,3}/g);
+			//console.log(raw);
+			//if (raw.length > 3) {
+			//	let output = "";
+			//	if (raw.length < 7) {
+			//		output = raw.replace(/(\d{3})(\d{1,3})/, '$1-$2');
+			//	} else if (raw.length < 11) {
+			//		output = raw.replace(/(\d{3})(\d{3})(\d{1,4})/, '$1-$2-$3');
+			//	} else {
+			//		output = (raw.slice(0, -2) + raw.slice(-1)).replace(/(\d{3})(\d{3})(\d{1,4})/, '$1-$2-$3');
+			//	}
+			//	this.client.phone = output;
+			//}
 		},
 		async updateData() {
 			this.client = await API.getClient(this.info.clientId);
@@ -299,10 +315,19 @@ export default {
 		selectedProviders() {
 			if (this.allProvs.lenght === 0)
 				return [];
-			return this.allProvs.map(p => ({
+			const arr = this.allProvs.map(p => ({
 				...p, 
-				check: this.client.providers.includes(p.id)
+				check: false
 			}));
+
+			arr.forEach(p => {
+				this.client.providers.forEach(pr => {
+					if (p._id === pr.id) {
+						p.check = true;
+					}
+				})
+			});
+			return arr;
 		}
 	},
 	async created() {
