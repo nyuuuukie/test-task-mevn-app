@@ -76,15 +76,15 @@ module.exports = class API {
 
 	// Page API
 	static async getPage(req, res) {
-		const pageOptions = {
+		const opts = {
 			page: parseInt(req.query.page, 10) || 1,
 			limit: parseInt(req.query.limit, 10) || 10
 		}
 
 		try {
 			await Client.find()
-			.skip((pageOptions.page - 1) * pageOptions.limit)
-			.limit(pageOptions.limit)
+			.skip((opts.page - 1) * opts.limit)
+			.limit(opts.limit)
 			.exec(function (err, docs) {
 				if (err) { 
 					res.status(500).json(err); 
@@ -158,32 +158,15 @@ module.exports = class API {
 	static async deleteProvider(req, res) {
 		const id = req.params.id;
 		try {
-			//Provider.pre('remove', function(next) {
-				
-				
-			//	//Client.update(
-			//	//	{ submission_ids : this._id}, 
-			//	//	{ $pull: { submission_ids: this._id } },
-			//	//	{ multi: true })  //if reference exists in multiple documents 
-			//	//.exec();
-			//	//next();
-			//});
-
 			const data = await Provider.findByIdAndDelete(id); 
-			const data2 = await Client.updateMany({}, { $pull: { providers: { $elemMatch: { id: id } } } });
+			const data2 = await Client.updateMany({}, { 
+				$pull: { 
+					providers: { 
+						$elemMatch: { id: id } 
+					} 
+				}
+			});
 			
-				// note that if you have populated the Event documents to
-				// the person documents, you have to extract the id from the
-				// req.body.eventsAttended object 
-				//Client.updateMany({}, {$pullAll: {"providers.id": [id]}})
-			//});
-
-			//await Client.updateMany({}, { $pull: { providers: { $elemMatch: { id: id } } } });
-
-			
-
-			//const providers = await Provider.find();
-			//console.log(providers);
 			res.status(200).json({
 				message: 'Provider deleted'
 			});
@@ -194,7 +177,4 @@ module.exports = class API {
 			});
 		}
 	}
-
-
-
 }

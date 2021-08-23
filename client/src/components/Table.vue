@@ -62,11 +62,17 @@ export default {
 					this.page = reqPage;
 				}
 			}
+		},
+		async loadPage() {			
+			this.clients = await API.getPageClients(this.page, this.pageLimit);
+			this.providers = await API.getProviders();
+		},
+		forceRerender() {
+			this.loadPage();
 		}
 	},
 	async created() {
-		this.clients = await API.getPageClients(this.page, this.pageLimit);
-		this.providers = await API.getProviders();
+		await this.loadPage();
 	}
 }
 </script>

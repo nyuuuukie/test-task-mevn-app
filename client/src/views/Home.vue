@@ -13,6 +13,7 @@
 			</div>
 			<div class="body">
 				<Table
+					ref="table"
 					@edit-client="editClient"
 				/>
 			</div>
@@ -22,6 +23,7 @@
 				v-if="modal.opened"
 				:info="modal"
 				@close-modal="closeModal()"
+				@page-reload="pageReload()"
 			/>
 		</div>
 	</div>
@@ -74,6 +76,9 @@ export default {
 		closeModal() {
 			this.modal.opened = false;
 		},
+		pageReload() {
+			this.$refs.table.forceRerender();
+		}
 	},
 }
 </script>

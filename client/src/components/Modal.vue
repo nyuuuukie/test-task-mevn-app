@@ -216,7 +216,7 @@ export default {
 			this.editProviderMode ? 
 				await this.changeProvider():
 				await this.addProvider();
-			
+			this.$emit('page-reload');
 			this.provider = '';
 		},
 		AddProviderMode() {
@@ -227,6 +227,9 @@ export default {
 		async updateLocalProvider() {
 			this.allProvs = await API.getProviders();
 			
+			// Instead of updating all list of providers
+			// I should just remove deleted from local list
+	
 			//let found = false;
 
 			//this.allProvs.forEach(p => {
@@ -248,8 +251,6 @@ export default {
 			console.log(this.client.providers);
 		},
 		editProvider(id) {
-			//console.log(id);
-			//console.log(this.allProvs);
 			let pr = this.allProvs.find(p => p._id === id);
 			this.provider = pr.name;
 
@@ -265,9 +266,9 @@ export default {
 					this.client.providers.filter(p => p.id === id);
 				await this.updateLocalProvider();
 			}
-
 			//loader stop
 
+			this.$emit('page-reload');
 			//emit page reload or provider updating
 		},
 		async deleteClient() {
@@ -275,36 +276,24 @@ export default {
 				this.$emit('close-modal');
 
 			//emit page reload
+			this.$emit('page-reload');
 		},
 		async saveClient() {
 			//start loader
 			if (this.info.active.mode === 'edit') {
-				console.log(this.client);
-				await API.updateClient(this.client); //if -> reload
+				//console.log(this.client);
+				if (await API.updateClient(this.client))
+					this.$emit('page-reload');
 			} else {
-				await API.addClient(this.client); //if -> reload
+				if (await API.addClient(this.client))
+					this.$emit('page-reload');
 			}
 			//stop loader
 			this.$emit('close-modal');
 		}, 
 		onChangePhone() {	
 			const raw = this.client.phone.replace(/\D/g, '');
-
 			this.client.phone = pmask.mask(raw);
-
-			//const chunks = raw.match(/.{1,3}/g);
-			//console.log(raw);
-			//if (raw.length > 3) {
-			//	let output = "";
-			//	if (raw.length < 7) {
-			//		output = raw.replace(/(\d{3})(\d{1,3})/, '$1-$2');
-			//	} else if (raw.length < 11) {
-			//		output = raw.replace(/(\d{3})(\d{3})(\d{1,4})/, '$1-$2-$3');
-			//	} else {
-			//		output = (raw.slice(0, -2) + raw.slice(-1)).replace(/(\d{3})(\d{3})(\d{1,4})/, '$1-$2-$3');
-			//	}
-			//	this.client.phone = output;
-			//}
 		},
 		async updateData() {
 			this.client = await API.getClient(this.info.clientId);
