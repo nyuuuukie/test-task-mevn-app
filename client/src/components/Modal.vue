@@ -231,7 +231,6 @@ export default {
 			// I should just remove deleted from local list
 	
 			//let found = false;
-
 			//this.allProvs.forEach(p => {
 			//	if (p._id === provider._id) {
 			//		p.name === provider.name;
