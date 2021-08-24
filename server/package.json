@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "server-side of the app",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
 	"server": "node main.js",
 	"devser": "nodemon main.js"

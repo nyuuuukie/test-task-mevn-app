@@ -1,12 +1,25 @@
 # mevn-app
 
-
-
 # Install & Run
-1. Install all necessary packages
+Install all necessary packages
 ```
 npm install
 ```
+
+## .env
+Before starting application you should create `.env` file
+containing following variables:
+
+Port for backend deployment: <br>
+`PORT = 5000` 
+
+Connection parameters by string structure: <br>
+`PREFIX://USER:PASSWORD@HOSTS`
+
+`DB_USER = "USER"` <br>
+`DB_PSWD = "PASSWORD"` <br>
+`DB_PREFIX = "PREFIX"`, e.g. "mongodb" <br>
+`DB_HOSTS = "HOSTS"`, <br>
 
 ## Frontend
 Frontend part is stored in `client` directory. 
@@ -17,7 +30,7 @@ npm run serve
 ```
 
 By default frontend part is started on 8080 port. <br>
-It could be changed in `vue.config.js` file or <br>
+It could be changed in `vue.config.js` file or
 by specifying port in command like below:
 
 ```
@@ -31,6 +44,14 @@ npm run build
 
 ## Backend
 Backend part is stored in `server` directory.
+
+By default frontend part is started on 5000 port. <br>
+It could be changed in `vue.config.js` file and
+by specifying port in command like below:
+
+```
+npm run serve --port {portNumber}
+```
 
 **API documentation**
 

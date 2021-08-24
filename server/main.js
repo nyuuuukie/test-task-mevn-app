@@ -17,7 +17,7 @@ const dbpswd = process.env.DB_PSWD;
 const dbprefix = process.env.DB_PREFIX;
 const dbhosts = process.env.DB_HOSTS;
 
-const connectionString = `${dbprefix}${dbuser}:${dbpswd}@${dbhosts}`;
+const connectionString = `${dbprefix}://${dbuser}:${dbpswd}@${dbhosts}`;
 
 mongoose.connect(connectionString, {
 	useUnifiedTopology: true,
