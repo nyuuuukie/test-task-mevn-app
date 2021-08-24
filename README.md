@@ -48,7 +48,7 @@ By default frontend part is started on 5000 port. <br>
 It could be changed in `vue.config.js` and `.env`
 by specifying port in command like below:
 
-**API documentation**
+### API documentation 
 
 API consist of the following methods:
 
@@ -62,11 +62,11 @@ updateClient(req, res)
 deleteClient(req, res)
 
 // Provider API
-getClients(req, res)
-addClient(req, res)
-getClient(req, res)
-updateClient(req, res)
-deleteClient(req, res)
+getProviders(req, res)
+addProvider(req, res)
+getProvider(req, res)
+updateProvider(req, res)
+deleteProvider(req, res)
 
 // Page API
 getPage(req, res)
