@@ -1,6 +1,11 @@
 # mevn-app
 
 # Install & Run
+
+## Dependencies
+ * `node.js`
+ * `npm` 
+
 ## Auto install
 Run `install.sh` that will install and deploy the application using default parameters
 
