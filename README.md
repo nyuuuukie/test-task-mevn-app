@@ -53,7 +53,21 @@ By default frontend part is started on 5000 port. <br>
 It could be changed in `vue.config.js` and `.env`
 by specifying port in command like below:
 
-### API documentation 
+**Compiles and hot-reloads for development**
+```
+npm run devser
+```
+
+**Compiles for production**
+```
+npm run server
+```
+
+# Usage
+
+After deploying the app, go to `http://localhost:{port}` if you started it locally or provider's URL 
+
+## API documentation 
 
 API consist of the following methods:
 
@@ -80,17 +94,3 @@ getPage(req, res)
 
 Go to [SwaggerHub](https://app.swaggerhub.com/apis-docs/mhufflep/server-api/0.1) for more detailed information about them.
 
-
-**Compiles and hot-reloads for development**
-```
-npm run devser
-```
-
-**Compiles for production**
-```
-npm run server
-```
-
-# Usage
-
-After deploying the app, go to `http://localhost:{port}` if you started it locally or provider's URL 
