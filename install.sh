@@ -7,10 +7,11 @@ cprint () {
         ['red']='\E[0;31m'\
         ['green']='\E[0;32m'\
         ['yellow']='\E[0;33m'\
+		['white']='\E[0;37m'\
     );
  
     local defaultMsg="";
-    local defaultColor="";
+    local defaultColor="white";
  
     while [[ $# -gt 1 ]];
     do
@@ -61,13 +62,15 @@ npm --prefix $CLIENT_DIR run serve
 
 # Open via default browser
 if [ "$(uname)" = "Linux" ]; then
-	OPEN_CMD="xdg-open"
+	OPEN_CMD="xdg-op1en"
 fi
 
 if ! command -v "${OPEN_CMD}" &> /dev/null
 then
-	cprint -c yellow "Warning: cannot run your browser"
-	cprint -c yellow "Please, go to $URL manually"
+	cprint -c red "Error: ${OPEN_CMD}: command not found"
+	cprint -c yellow "Application failed to open"
+	cprint -c yellow "To access the application, open this URL in a browser:"
+	cprint -c yellow "$URL"
 else
 	$OPEN_CMD $URL > /dev/null 2>&1 & disown
 fi
