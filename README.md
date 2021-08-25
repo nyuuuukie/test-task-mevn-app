@@ -10,9 +10,10 @@
 Run `install.sh` that will install and deploy the application using default parameters
 
 ## Manual install
-Install all necessary packages
+Install all necessary packages (run in the root of repository)
 ```
-npm install
+npm —prefix ./client install
+npm —prefix ./server install
 ```
 
 ### .env
