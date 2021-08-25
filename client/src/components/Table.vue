@@ -3,6 +3,7 @@
 		<table>
 			<TableHeader 
 				:headers="headers"
+				@sort="sortTable"
 			/>
 			<TableRow	
 				v-for="client in clients"
@@ -45,7 +46,11 @@ export default {
 		page: 1,
 		pageLimit: 10,
 		headers: [
-			'Name', 'Email', 'Phone', 'Providers', ''
+			{name: "Name", sortable: true},
+			{name: "Email", sortable: true},
+			{name: "Phone", sortable: true},
+			{name: "Providers", sortable: false},
+			{name: "", sortable: false},
 		]
 	}),
 	methods: {
@@ -69,6 +74,21 @@ export default {
 		},
 		forceRerender() {
 			this.loadPage();
+		},
+		sortTable(key, ascend) {
+			this.clients.sort(function(a, b) {
+				let x = a[key].toLowerCase();
+				let y = b[key].toLowerCase();
+				if (x > y) {
+					return 1;
+				}
+				if (x < y) {
+					return -1; 
+				}
+				return 0;
+			});
+			if (ascend)
+				this.clients.reverse();
 		}
 	},
 	async created() {

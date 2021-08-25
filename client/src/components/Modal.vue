@@ -228,7 +228,7 @@ export default {
 			this.allProvs = await API.getProviders();
 			
 			// Instead of updating all list of providers
-			// I should just remove deleted from local list
+			// deleted provider should be removed from local list
 	
 			//let found = false;
 			//this.allProvs.forEach(p => {
@@ -268,19 +268,16 @@ export default {
 			//loader stop
 
 			this.$emit('page-reload');
-			//emit page reload or provider updating
 		},
 		async deleteClient() {
 			if (await API.deleteClient(this.info.clientId))
 				this.$emit('close-modal');
 
-			//emit page reload
 			this.$emit('page-reload');
 		},
 		async saveClient() {
 			//start loader
 			if (this.info.active.mode === 'edit') {
-				//console.log(this.client);
 				if (await API.updateClient(this.client))
 					this.$emit('page-reload');
 			} else {

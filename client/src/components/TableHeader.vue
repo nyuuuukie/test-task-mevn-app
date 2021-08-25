@@ -1,6 +1,13 @@
 <template>
 	<tr>
-		<th :key="index" v-for="(item, index) in headers">{{item}}</th>
+		<th :key="i"
+			v-for="(header, i) in headers"
+			@click="headerClick(header.name, i)">
+			{{header.name}}
+			<i :class="sortClass[i]"
+				v-if="header.sortable">
+			</i>
+		</th>
 	</tr>
 </template>
 
@@ -9,11 +16,42 @@ export default {
 	name: 'TableHeader',
 	props: {
 		headers: Array,
+	},
+	data: () => ({
+		sortUp: "fas fa-angle-up",
+		sortDown: "fas fa-angle-down",
+		sortClass: [],
+		descending: false,
+	}),
+	methods: {
+		headerClick(name, i) {
+			if (this.isSortedUp) {
+				this.sortClass[i] = this.sortDown;
+			} else {
+				this.sortClass[i] = this.sortUp;
+			}
+			this.isSortedUp = !this.isSortedUp;
+
+			this.$emit('sort', name.toLowerCase(), this.isSortedUp);
+		}
+	},
+	created() {
+		this.headers.forEach((header, i) => {
+			if (header.sortable) {
+				this.sortClass[i] = this.sortDown;
+			} else {
+				this.sortClass[i] = "";
+			}
+		})
 	}
 }
 </script>
 
 <style scoped>
+
+i {
+	cursor: pointer;
+}
 
 tr {
 	-webkit-box-shadow: 0px 4px 2px -2px rgba(112, 112, 112, 0.6);
