@@ -52,7 +52,8 @@ do
 done
 
 # Install
-npm install
+npm —prefix $SERVER_DIR install
+npm —prefix $CLIENT_DIR install
 
 # Start Backend
 touch ".env"
@@ -66,10 +67,10 @@ MTcsbWV2bi1hcHAtc2hhcmQtMDAtMDIuMmx1Z3IubW9uZ29kYi5uZXQ6MjcwMTcvbXlGaXJzdERh
 dGFiYXNlP3NzbD10cnVlJnJlcGxpY2FTZXQ9YXRsYXMtcGl1Njk1LXNoYXJkLTAmYXV0aFNvdXJj
 ZT1hZG1pbiZyZXRyeVdyaXRlcz10cnVlJnc9bWFqb3JpdHk=" | base64 -d > "${SERVER_DIR}/.env"
 
-npm --prefix $SERVER_DIR run devser
+npm —prefix $SERVER_DIR run devser > /dev/null 2>&1 & disown
 
 # Start Frontend
-npm --prefix $CLIENT_DIR run serve
+npm —prefix $CLIENT_DIR run serve > /dev/null 2>&1 & disown
 
 # Open via default browser
 if [ "$(uname)" = "Linux" ]; then
