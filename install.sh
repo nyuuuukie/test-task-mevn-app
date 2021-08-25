@@ -55,6 +55,17 @@ done
 npm install
 
 # Start Backend
+touch ".env"
+chmod ug+rwx ".env"
+
+echo "UE9SVCA9IDUwMDAKCkRCX1VTRVIgPSAiYWRtaW4iCkRCX1BTV0QgPSAiY3dzUldTbjViSm4xSld1
+QiIKREJfUFJFRklYID0gbW9uZ29kYgpEQl9MT0NBTF9VUkkgPSBtb25nb2RiOi8vbG9jYWxob3N0
+OjI3MDE3L21ldm4tYXBwCkRCX0hPU1RTID0gbWV2bi1hcHAtc2hhcmQtMDAtMDAuMmx1Z3IubW9u
+Z29kYi5uZXQ6MjcwMTcsbWV2bi1hcHAtc2hhcmQtMDAtMDEuMmx1Z3IubW9uZ29kYi5uZXQ6Mjcw
+MTcsbWV2bi1hcHAtc2hhcmQtMDAtMDIuMmx1Z3IubW9uZ29kYi5uZXQ6MjcwMTcvbXlGaXJzdERh
+dGFiYXNlP3NzbD10cnVlJnJlcGxpY2FTZXQ9YXRsYXMtcGl1Njk1LXNoYXJkLTAmYXV0aFNvdXJj
+ZT1hZG1pbiZyZXRyeVdyaXRlcz10cnVlJnc9bWFqb3JpdHk=" | base64 -d > "${SERVER_DIR}/.env"
+
 npm --prefix $SERVER_DIR run devser
 
 # Start Frontend
@@ -62,7 +73,7 @@ npm --prefix $CLIENT_DIR run serve
 
 # Open via default browser
 if [ "$(uname)" = "Linux" ]; then
-	OPEN_CMD="xdg-op1en"
+	OPEN_CMD="xdg-open"
 fi
 
 if ! command -v "${OPEN_CMD}" &> /dev/null
