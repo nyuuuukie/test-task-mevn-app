@@ -4,8 +4,8 @@
   "description": "server-side of the app",
   "main": "main.js",
   "scripts": {
-	"server": "node main.js",
-	"devser": "nodemon main.js"
+    "start": "node main.js",
+    "devser": "nodemon main.js"
   },
   "keywords": [],
   "author": "Ilnur Timergaliev",
