@@ -21,6 +21,7 @@
 		<div class="modal">
 			<Modal
 				v-if="modal.opened"
+				ref="modal"
 				:info="modal"
 				@close-modal="closeModal()"
 				@page-reload="pageReload()"
@@ -68,7 +69,12 @@ export default {
 		editClient(id) {
 			this.modal.active = this.modal.modes.edit;
 			this.modal.clientId = id;
-			this.openModal();
+			
+			if (this.modal.opened)
+				this.$refs.modal.updateData();
+			else
+				this.openModal();
+
 		},
 		openModal() {
 			this.modal.opened = true;
@@ -85,7 +91,6 @@ export default {
 
 <style scoped>
 	.container {
-		width: 70vw;
 		border: 1px solid #d3d3d3;
 	}
 

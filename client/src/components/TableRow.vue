@@ -1,10 +1,10 @@
 <template>
 	<tr>
-		<td>{{client.name}}</td>
-		<td>{{client.email}}</td>
-		<td>{{client.phone}}</td>
+		<td style="width:20%;">{{client.name}}</td>
+		<td style="width:20%;">{{client.email}}</td>
+		<td style="width:300px;">{{client.phone}}</td>
 		<td>{{providersNames}}</td>
-		<td edit
+		<td style="width:50px;" edit
 			@click="$emit('edit-client')"
 		>
 			<a href="#">Edit</a>
@@ -39,6 +39,8 @@ export default {
 		border: 1px solid lightgray;
 		padding: 7px 10px 7px 10px;
 		text-align: left;
+
+		word-wrap: break-word;
 	}
 
 	td[edit] {

@@ -10,10 +10,25 @@ export default class API {
 		return data;
 	}
 
-	static async getPageClients(page, limit) {
+	static async getPage(page, limit) {
 		const query = `/query/pages?page=${page}&limit=${limit}`;
 
 		return await this.getData(query);
+	}
+
+	static async getSortedPage(page, limit, key, asc) {
+		const query = `/query/pages/sorted?page=${page}&limit=${limit}`;
+		const opt = {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify({
+				"key": key,
+				"order": asc ? 'asc' : 'desc'
+			})
+		};
+		return await this.getData(query, opt);
 	}
 
 	static async getClients() {

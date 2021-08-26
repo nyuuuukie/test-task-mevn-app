@@ -1,10 +1,11 @@
 <template>
 	<tr>
 		<th :key="i"
-			v-for="(header, i) in headers"
-			@click="headerClick(header.name, i)">
+			v-for="(header, i) in headers">	
 			{{header.name}}
 			<i :class="sortClass[i]"
+				@click="headerClick(header.name, i)"
+				@dblclick="$emit('remove-sort', i)"
 				v-if="header.sortable">
 			</i>
 		</th>
@@ -21,18 +22,18 @@ export default {
 		sortUp: "fas fa-angle-up",
 		sortDown: "fas fa-angle-down",
 		sortClass: [],
-		descending: false,
+		ascend: true,
 	}),
 	methods: {
 		headerClick(name, i) {
-			if (this.isSortedUp) {
+			if (this.ascend) {
 				this.sortClass[i] = this.sortDown;
 			} else {
 				this.sortClass[i] = this.sortUp;
 			}
-			this.isSortedUp = !this.isSortedUp;
+			this.ascend = !this.ascend;
 
-			this.$emit('sort', name.toLowerCase(), this.isSortedUp);
+			this.$emit('sort', name.toLowerCase(), this.ascend);
 		}
 	},
 	created() {
@@ -66,6 +67,8 @@ th {
 	border: 1px solid lightgray;
 	padding: 7px 10px 7px 10px;
 	color: #313131;
+
+	word-wrap: break-word;
 }
 
 </style>

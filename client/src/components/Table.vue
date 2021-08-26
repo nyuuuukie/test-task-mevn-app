@@ -4,6 +4,7 @@
 			<TableHeader 
 				:headers="headers"
 				@sort="sortTable"
+				@remove-sort="removeSort"
 			/>
 			<TableRow	
 				v-for="client in clients"
@@ -46,12 +47,14 @@ export default {
 		page: 1,
 		pageLimit: 10,
 		headers: [
-			{name: "Name", sortable: true},
-			{name: "Email", sortable: true},
-			{name: "Phone", sortable: true},
-			{name: "Providers", sortable: false},
-			{name: "", sortable: false},
-		]
+			{name: "Name", sortable: true, sorted: false},
+			{name: "Email", sortable: true, sorted: false},
+			{name: "Phone", sortable: true, sorted: false},
+			{name: "Providers", sortable: false, sorted: false},
+			{name: "", sortable: false, sorted: false},
+		],
+		sortKey: "",
+		sortAsc: false,
 	}),
 	methods: {
 		async switchPage(state) {			
@@ -60,35 +63,52 @@ export default {
 			reqPage += (state === 'next') ? 1 : -1;
 
 			if (reqPage >= 1) {
-				const pageClients = await API.getPageClients(reqPage, this.pageLimit);
+				let page = [];
+				if (this.sortKey === '')
+					page = await API.getPage(reqPage, this.pageLimit);
+				else
+					page = await API.getSortedPage(reqPage, this.pageLimit, 
+												this.sortKey, this.sortAsc);
 				
-				if (pageClients.length !== 0) {
-					this.clients = pageClients;
+				if (page.length !== 0) {
+					this.clients = page;
 					this.page = reqPage;
 				}
 			}
 		},
 		async loadPage() {			
-			this.clients = await API.getPageClients(this.page, this.pageLimit);
+			this.clients = await API.getPage(this.page, this.pageLimit);
 			this.providers = await API.getProviders();
 		},
 		forceRerender() {
 			this.loadPage();
 		},
-		sortTable(key, ascend) {
-			this.clients.sort(function(a, b) {
-				let x = a[key].toLowerCase();
-				let y = b[key].toLowerCase();
-				if (x > y) {
-					return 1;
-				}
-				if (x < y) {
-					return -1; 
-				}
-				return 0;
-			});
-			if (ascend)
-				this.clients.reverse();
+		async sortTable(key, ascend) {
+			this.sortKey = key;
+			this.sortAsc = ascend;
+			this.clients = await API.getSortedPage(this.page, 
+										this.pageLimit, key, ascend)
+			
+			// Sorting local client data without downloading
+
+			//this.clients.sort(function(a, b) {
+			//	let x = a[key].toLowerCase();
+			//	let y = b[key].toLowerCase();
+			//	if (x > y) {
+			//		return 1;
+			//	}
+			//	if (x < y) {
+			//		return -1; 
+			//	}
+			//	return 0;
+			//});
+			//if (ascend)
+			//	this.clients.reverse();
+		},
+		removeSort() {
+			this.sortKey = "";
+			this.sortAsc = true;
+			this.forceRerender();
 		}
 	},
 	async created() {
@@ -105,6 +125,7 @@ export default {
 	}
 
 	table {
+		table-layout: fixed;
 		width: 100%;
 		border: 1px solid lightgray;
 	}

@@ -100,6 +100,34 @@ module.exports = class API {
 		}
 	}
 
+	static async getSortedPage(req, res) {
+		const opts = {
+			page: parseInt(req.query.page, 10) || 1,
+			limit: parseInt(req.query.limit, 10) || 10,
+			order: req.body.order === 'asc' ? '' : '-',
+			key: req.body.key || 'name'
+		}
+		console.log(req.body);
+		try {
+			await Client.find()
+			.collation({locale: "en", strength: 1})
+			.sort(`${opts.order}${opts.key}`)
+			.skip((opts.page - 1) * opts.limit)
+			.limit(opts.limit)
+			.exec(function (err, docs) {
+				if (err) { 
+					res.status(500).json(err); 
+					return ; 
+				};
+				res.status(200).json(docs);
+			});
+		} catch (err) {
+			res.status(404).json({
+				method: 'getSortedPage',
+				message: err.message
+			})
+		}
+	}
 
 	// Provider API
 	static async getProviders(req, res) {

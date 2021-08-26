@@ -38,4 +38,23 @@ body {
 	font-family: 'Arial', sans-serif;
 }
 
+@media (max-width: 500px) {
+	#app {
+		width: 100%;
+	}
+}
+
+@media (min-width: 500px) and (max-width: 700px) {
+	#app {
+		width: 85%;
+	}
+}
+
+@media (min-width: 700px) {
+	#app {
+		width: 70%;
+		max-width: 900px;
+	}
+}
+
 </style>
