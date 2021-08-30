@@ -17,7 +17,7 @@ isPortBusy()
 	fi
 }
 
-cprint () 
+print () 
 {
     declare -A colors;
     colors=(\
@@ -58,7 +58,7 @@ for dep in ${dependencies[@]}
 do
 	if ! command -v $dep &> /dev/null
 	then
-    	cprint -c red "Error: $dep is not installed"
+    	print -c red "Error: $dep is not installed"
 		exit
 	fi
 done
@@ -83,7 +83,7 @@ chmod ug+rwx "${SERVER_DIR}/.env"
 isPortBusy $SERVER_PORT
 
 if [ "$?" -eq 1 ]; then
-	echo "Port $SERVER_PORT is busy"
+	print -c red "Port $SERVER_PORT is busy"
 	exit
 fi
 
@@ -92,4 +92,4 @@ npm --prefix $SERVER_DIR run devser > "server.log" 2>&1 & disown
 
 # Start client
 npm --prefix $CLIENT_DIR run serve > "client.log" 2>&1 & disown
-cprint -c "yellow" "\nPlease, wait for the client to open...\n"
+print -c yellow "\nPlease, wait for the client to open...\n"

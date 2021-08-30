@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //db connection
-
 const dbuser = process.env.DB_USER;
 const dbpswd = process.env.DB_PSWD;
 const dbprefix = process.env.DB_PREFIX;
@@ -32,7 +31,6 @@ mongoose.connect(connectionString, {
 })
 
 //routes prefixes
-//app.use('/', require('./routes/routes'))
 app.use('/clients/', require('./routes/client-routes'))
 app.use('/pages/', require('./routes/page-routes'))
 app.use('/providers/', require('./routes/provider-routes'))
@@ -52,5 +50,4 @@ if (process.env.NODE_ENV === 'production') {
 
 app.listen(port, () => {
 	console.log(`Running at http://localhost:${port}`);
-	process.env['MEVN_ON'] = "on";
 })
