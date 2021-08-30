@@ -1,7 +1,24 @@
 #!/bin/bash
 
-cprint () {
- 
+# Variables
+SERVER_PORT=5000
+URL="http://localhost:8080"
+SERVER_DIR="server"
+CLIENT_DIR="client"
+OPEN_CMD="open"
+
+isPortBusy()
+{
+	busy="$(lsof -i -n -P | grep $1)"
+	if ! [ "$busy" = "" ]; then
+		return 1;
+	else
+		return 0;
+	fi
+}
+
+cprint () 
+{
     declare -A colors;
     colors=(\
         ['red']='\E[0;31m'\
@@ -34,12 +51,7 @@ cprint () {
     return;
 }
 
-URL="http://localhost:8080"
-SERVER_DIR="server"
-CLIENT_DIR="client"
-OPEN_CMD="open"
-
-# Check Main Dependencies
+# Check for dependencies
 declare -a dependencies=("node" "npm")
 
 for dep in ${dependencies[@]}
@@ -52,11 +64,11 @@ do
 done
 
 # Install
-npm --prefix $SERVER_DIR install
-npm --prefix $CLIENT_DIR install
+npm --prefix $CLIENT_DIR install --save-dev "postcss@^8.1.0" 
+npm --prefix $SERVER_DIR --dry-run install
+npm --prefix $CLIENT_DIR --dry-run install
 
-# Start Backend
-
+# Create .env file
 echo "UE9SVCA9IDUwMDAKCkRCX1VTRVIgPSAiYWRtaW4iCkRCX1BTV0QgPSAiY3dzUldTbjViSm4xSld1
 QiIKREJfUFJFRklYID0gbW9uZ29kYgpEQl9MT0NBTF9VUkkgPSBtb25nb2RiOi8vbG9jYWxob3N0
 OjI3MDE3L21ldm4tYXBwCkRCX0hPU1RTID0gbWV2bi1hcHAtc2hhcmQtMDAtMDAuMmx1Z3IubW9u
@@ -64,24 +76,20 @@ Z29kYi5uZXQ6MjcwMTcsbWV2bi1hcHAtc2hhcmQtMDAtMDEuMmx1Z3IubW9uZ29kYi5uZXQ6Mjcw
 MTcsbWV2bi1hcHAtc2hhcmQtMDAtMDIuMmx1Z3IubW9uZ29kYi5uZXQ6MjcwMTcvbXlGaXJzdERh
 dGFiYXNlP3NzbD10cnVlJnJlcGxpY2FTZXQ9YXRsYXMtcGl1Njk1LXNoYXJkLTAmYXV0aFNvdXJj
 ZT1hZG1pbiZyZXRyeVdyaXRlcz10cnVlJnc9bWFqb3JpdHk=" | base64 --decode > "${SERVER_DIR}/.env"
+
 chmod ug+rwx "${SERVER_DIR}/.env"
 
-npm --prefix $SERVER_DIR run devser > /dev/null 2>&1 & disown
+# Check if port is busy
+isPortBusy $SERVER_PORT
 
-# Start Frontend
-npm --prefix $CLIENT_DIR run serve > /dev/null 2>&1 & disown
-
-# Open via default browser
-if [ "$(uname)" = "Linux" ]; then
-	OPEN_CMD="xdg-open"
+if [ "$?" -eq 1 ]; then
+	echo "Port $SERVER_PORT is busy"
+	exit
 fi
 
-if ! command -v "${OPEN_CMD}" &> /dev/null
-then
-	cprint -c red "Error: ${OPEN_CMD}: command not found"
-	cprint -c yellow "Application failed to open"
-	cprint -c yellow "To access the application, open this URL in a browser:"
-	cprint -c yellow "$URL"
-else
-	$OPEN_CMD $URL > /dev/null 2>&1 & disown
-fi
+# Start server
+npm --prefix $SERVER_DIR run devser > "server.log" 2>&1 & disown
+
+# Start client
+npm --prefix $CLIENT_DIR run serve > "client.log" 2>&1 & disown
+cprint -c "yellow" "\nPlease, wait for the client to open...\n"

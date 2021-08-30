@@ -39,7 +39,7 @@ app.use('/providers/', require('./routes/provider-routes'))
 
 app.use(function (err, req, res, next) {
 	console.error(err.stack)
-	res.status(500).send('Something broke!')
+	res.status(500).send('An error occured')
 });
  
 //production settings
@@ -52,6 +52,5 @@ if (process.env.NODE_ENV === 'production') {
 
 app.listen(port, () => {
 	console.log(`Running at http://localhost:${port}`);
+	process.env['MEVN_ON'] = "on";
 })
-
-
