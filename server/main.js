@@ -22,7 +22,7 @@ mongoose.connect(connectionString, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
 	useCreateIndex: true,
-	useFindAndModify: true	
+	useFindAndModify: false	
 }).then(() => {
 	console.log('Connected to the db successfully');
 }).catch((err) => {
