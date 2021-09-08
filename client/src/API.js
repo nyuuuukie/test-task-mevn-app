@@ -1,11 +1,9 @@
+import APIHost from 'baseURL'
+
 export default class API {
 
-	static baseURI() {
-		return process.env.VUE_APP_URI;
-	}
-
 	static async getData(query, opt = {}, expStatus = 200) {
-		const res = await fetch(query, opt);
+		const res = await fetch(APIHost + query, opt);
 
 		if (res.status !== expStatus)
 			return null;
@@ -15,13 +13,13 @@ export default class API {
 	}
 
 	static async getPage(page, limit) {
-		const query = `${baseURI()}/pages?page=${page}&limit=${limit}`;
+		const query = `/pages?page=${page}&limit=${limit}`;
 
 		return await this.getData(query);
 	}
 
 	static async getSortedPage(page, limit, key, asc) {
-		const query = `${baseURI()}/pages/sorted?page=${page}&limit=${limit}`;
+		const query = `/pages/sorted?page=${page}&limit=${limit}`;
 		const opt = {
 			method: 'POST',
 			headers: {
@@ -36,7 +34,7 @@ export default class API {
 	}
 
 	static async getClients() {
-		const query = `${baseURI()}/clients`;
+		const query = '/clients';
 
 		return await this.getData(query);
 	}
@@ -47,7 +45,7 @@ export default class API {
 	}
 
 	static async addClient(client) {
-		const query = `${baseURI()}/clients/`;
+		const query = '/clients/';
 		const opt = {
 			method: 'POST',
 			headers: {
@@ -60,7 +58,7 @@ export default class API {
 	}
 
 	static async updateClient(client) {
-		const query = `${baseURI()}/clients/${client._id}`;
+		const query = `/clients/${client._id}`;
 		const opt = {
 			method: 'PATCH',
 			headers: {
@@ -73,7 +71,7 @@ export default class API {
 	}
 
 	static async deleteClient(id) {
-		const query = `${baseURI()}/clients/${id}`;
+		const query = `/clients/${id}`;
 		const opt = {
 			method: 'DELETE'
 		}
@@ -82,19 +80,19 @@ export default class API {
 	}
 
 	static async getProviders() {
-		const query = `${baseURI()}/providers`;
+		const query = '/providers';
 
 		return await this.getData(query);
 	}
 
 	static async getProvider(id) {
-		const query = `${baseURI()}/providers/${id}`;
+		const query = `/providers/${id}`;
 		
 		return await this.getData(query);
 	}
 
 	static async addProvider(provider) {
-		const query = `${baseURI()}/providers/`;
+		const query = '/providers/';
 		const opt = {
 			method: 'POST',
 			headers: {
@@ -107,7 +105,7 @@ export default class API {
 	}
 
 	static async updateProvider(provider) {
-		const query = `${baseURI()}/providers/${provider._id}`;
+		const query = `/providers/${provider._id}`;
 		const opt = {
 			method: 'PATCH',
 			headers: {
@@ -120,7 +118,7 @@ export default class API {
 	}
 
 	static async deleteProvider(id) {
-		const query = `${baseURI()}/providers/${id}`;
+		const query = `/providers/${id}`;
 		const opt = {
 			method: 'DELETE'
 		};
