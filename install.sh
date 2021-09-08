@@ -65,8 +65,8 @@ done
 
 # Install
 npm --prefix $CLIENT_DIR install --save-dev "postcss@^8.1.0" 
-npm --prefix $SERVER_DIR --dry-run install
-npm --prefix $CLIENT_DIR --dry-run install
+npm --prefix $SERVER_DIR install
+npm --prefix $CLIENT_DIR install
 
 # Create .env file
 echo "PORT=5000" >> "${SERVER_DIR}/.env"

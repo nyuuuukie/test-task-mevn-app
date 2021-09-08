@@ -5,5 +5,8 @@ module.exports = {
         plugins: [
 	    new Dotenv()
         ]
+	},
+	devServer: {
+        proxy: 'http://localhost:5000',	
     }
 };
