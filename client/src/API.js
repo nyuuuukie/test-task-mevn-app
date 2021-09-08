@@ -1,8 +1,6 @@
 export default class API {
 
 	static async getData(query, opt = {}, expStatus = 200) {
-		//const baseURL = "http://localhost:5000"
-		//const baseURL = "http://165.227.141.103:5000"
 		const baseURL = process.env.VUE_APP_BASE_URL;
 		const res = await fetch(baseURL + query, opt);
 
