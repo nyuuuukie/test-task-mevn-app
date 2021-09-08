@@ -84,14 +84,13 @@ chmod ug+rwx "${CLIENT_DIR}/.env"
 isPortBusy $SERVER_PORT
 
 if [ "$?" -eq 1 ]; then
-	print -c red "Port $SERVER_PORT is busy"
+	print -c red "Port $SERVER_PORT is already being used by another application"
 	exit 1
 fi
 
-
 if [ "$1" == "--prod" ]; then
 	# Start prod mode
-    npm --prefix $SERVER_DIR run start > "server.log" 2>&1 & disown
+    NODE_ENV=production npm --prefix $SERVER_DIR run start > "server.log" 2>&1 & disown
     print -c green "\nApp is available on ${VUE_APP_BASE_URL}\n"
 else
 	# Start dev server
