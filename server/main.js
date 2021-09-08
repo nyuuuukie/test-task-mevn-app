@@ -42,9 +42,9 @@ app.use(function (err, req, res, next) {
  
 //production settings
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(__dirname + '/dist/'));
-	app.get("*", (req, res) => {
-		res.sendFile(__dirname + '/dist/index.html');
+	app.use(express.static('/var/www/html/mevn-app/client/dist/'));
+	app.get("/", (req, res) => {
+		res.sendFile('/var/www/html/mevn-app/client/dist/index.html');
 	})
 }
 
