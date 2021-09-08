@@ -7,7 +7,11 @@
  * `npm` 
 
 ## Auto install
-Run `install.sh` that will install and deploy the application using default parameters
+Script `install.sh` will install and deploy the application using default parameters
+```bash
+# To run production version specify --prod flag:
+./install.sh --prod
+```
 
 ## Manual install
 Install all necessary packages (run in the root of repository)
@@ -78,7 +82,7 @@ npm run devser
 
 # Usage
 
-After deploying the app, go to `http://localhost:{port}` if you started it locally or provider's URL 
+After deploying the app, go to `http://localhost:{port}` or URL you specified 
 
 ## API documentation 
 
@@ -106,4 +110,3 @@ getSortedPage(page, limit, key, asc)
 ```
 
 Go to [SwaggerHub](https://app.swaggerhub.com/apis-docs/mhufflep/server-api/0.1) for detailed information about them.
-
