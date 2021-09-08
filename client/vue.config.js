@@ -7,6 +7,14 @@ module.exports = {
         ]
 	},
 	devServer: {
-        proxy: 'http://localhost:5000',	
-    }
+		port: 8080,
+		proxy: {
+			'^/': {
+				target: "http://localhost:5000",
+				changeOrigin: true,
+				logLevel: 'debug',
+				pathRewrite: { '^/': '/' },
+			},
+		}
+	}
 };
