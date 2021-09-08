@@ -11,10 +11,39 @@ Run `install.sh` that will install and deploy the application using default para
 
 ## Manual install
 Install all necessary packages (run in the root of repository)
-```
+```bash
 npm --prefix ./client install
 npm --prefix ./server install
 ```
+
+## Frontend
+Frontend part is stored in `client` directory.
+
+### .env
+Before building/deploying frontend you should create `.env` file that contains:
+```bash
+VUE_APP_BASE_URL="backend's URL"
+
+# For example:
+VUE_APP_BASE_URL="http://165.227.141.103:5000"
+```
+
+### Compiles and minifies for production
+```bash
+npm run build
+
+# This command will put all necessary files in dist folder.
+```
+
+### Compiles and hot-reloads for development
+```bash
+npm run serve [--port portNumber]
+
+# By default frontend part is started on 8080 port.
+```
+
+## Backend
+Backend part is stored in `server` directory.
 
 ### .env
 Before starting application you should create `.env` file
@@ -31,37 +60,20 @@ DB_PSWD = "PASSWORD"
 DB_PREFIX = "PREFIX" # e.g. "mongodb"
 DB_HOSTS = "HOSTS"
 ```
+> :warning: **If you changed default port of app: do not forget to update value in client's .env file**
 
-## Frontend
-Frontend part is stored in `client` directory. 
+### Compiles for production
+```bash
+npm run start
 
-**Compiles and hot-reloads for development**
-```
-npm run serve [--port portNumber]
-
-# By default frontend part is started on 8080 port.
+# This command will use node to run application
 ```
 
-**Compiles and minifies for production**
-```
-npm run build
-```
-
-## Backend
-Backend part is stored in `server` directory.
-
-By default frontend part is started on 5000 port. <br>
-It could be changed in `vue.config.js` and `.env`
-by specifying port in command like below:
-
-**Compiles and hot-reloads for development**
-```
+### Compiles and hot-reloads for development
+```bash
 npm run devser
-```
 
-**Compiles for production**
-```
-npm run server
+# This command will use nodemon to run application
 ```
 
 # Usage
@@ -73,25 +85,25 @@ After deploying the app, go to `http://localhost:{port}` if you started it local
 API consist of the following methods:
 
 ```javascript
-
 // Client API
-getClients(req, res)
-addClient(req, res)
-getClient(req, res)
-updateClient(req, res)
-deleteClient(req, res)
+getClients()
+addClient(client)
+getClient(id)
+updateClient(client)
+deleteClient(id)
 
 // Provider API
-getProviders(req, res)
-addProvider(req, res)
-getProvider(req, res)
-updateProvider(req, res)
-deleteProvider(req, res)
+getProviders()
+addProvider(provider)
+getProvider(id)
+updateProvider(provider)
+deleteProvider(id)
 
 // Page API
-getPage(req, res)
+getPage(page, limit)
+getSortedPage(page, limit, key, asc)
 
 ```
 
-Go to [SwaggerHub](https://app.swaggerhub.com/apis-docs/mhufflep/server-api/0.1) for more detailed information about them.
+Go to [SwaggerHub](https://app.swaggerhub.com/apis-docs/mhufflep/server-api/0.1) for detailed information about them.
 

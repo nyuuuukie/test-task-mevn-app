@@ -1,7 +1,7 @@
 export default class API {
 
 	static async getData(query, opt = {}, expStatus = 200) {
-		const baseURL = process.env.VUE_APP_BASE_URL;
+		const baseURL = process.env.VUE_APP_BASE_URL | "URL not defined";
 		const res = await fetch(baseURL + query, opt);
 
 		if (res.status !== expStatus)

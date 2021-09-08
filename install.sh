@@ -2,10 +2,9 @@
 
 # Variables
 SERVER_PORT=5000
-URL="http://localhost:8080"
 SERVER_DIR="server"
 CLIENT_DIR="client"
-OPEN_CMD="open"
+VUE_APP_BASE_URL = 'http://165.227.141.103:5000'
 
 isPortBusy()
 {
@@ -63,33 +62,44 @@ do
 	fi
 done
 
+
 # Install
 npm --prefix $CLIENT_DIR install --save-dev "postcss@^8.1.0" 
 npm --prefix $SERVER_DIR --dry-run install
 npm --prefix $CLIENT_DIR --dry-run install
 
 # Create .env file
-echo "UE9SVCA9IDUwMDAKCkRCX1VTRVIgPSAiYWRtaW4iCkRCX1BTV0QgPSAiY3dzUldTbjViSm4xSld1
-QiIKREJfUFJFRklYID0gbW9uZ29kYgpEQl9MT0NBTF9VUkkgPSBtb25nb2RiOi8vbG9jYWxob3N0
-OjI3MDE3L21ldm4tYXBwCkRCX0hPU1RTID0gbWV2bi1hcHAtc2hhcmQtMDAtMDAuMmx1Z3IubW9u
-Z29kYi5uZXQ6MjcwMTcsbWV2bi1hcHAtc2hhcmQtMDAtMDEuMmx1Z3IubW9uZ29kYi5uZXQ6Mjcw
-MTcsbWV2bi1hcHAtc2hhcmQtMDAtMDIuMmx1Z3IubW9uZ29kYi5uZXQ6MjcwMTcvbXlGaXJzdERh
-dGFiYXNlP3NzbD10cnVlJnJlcGxpY2FTZXQ9YXRsYXMtcGl1Njk1LXNoYXJkLTAmYXV0aFNvdXJj
-ZT1hZG1pbiZyZXRyeVdyaXRlcz10cnVlJnc9bWFqb3JpdHk=" | base64 --decode > "${SERVER_DIR}/.env"
-
+echo "PORT = 5000" >> "${SERVER_DIR}/.env"
+echo "API_URL='http://localhost:${PORT}/'" >> "${SERVER_DIR}/.env"
+echo "DB_USER = 'admin'" >> "${SERVER_DIR}/.env"
+echo "DB_PSWD = 'cwsRWSn5bJn1JWuB'" >> "${SERVER_DIR}/.env"
+echo "DB_PREFIX = 'mongodb'" >> "${SERVER_DIR}/.env"
+echo "DB_HOSTS = 'mevn-app-shard-00-00.2lugr.mongodb.net:27017,mevn-app-shard-00-01.2lugr.mongodb.net:27017,mevn-app-shard-00-02.2lugr.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-piu695-shard-0&authSource=admin&retryWrites=true&w=majority'" >> "${SERVER_DIR}/.env"
 chmod ug+rwx "${SERVER_DIR}/.env"
+
+echo "VUE_APP_BASE_URL = ${VUE_APP_BASE_URL}" > "${CLIENT_DIR}/.env"
+chmod ug+rwx "${CLIENT_DIR}/.env"
+
 
 # Check if port is busy
 isPortBusy $SERVER_PORT
 
 if [ "$?" -eq 1 ]; then
 	print -c red "Port $SERVER_PORT is busy"
-	exit
+	exit 1
 fi
 
-# Start server
-npm --prefix $SERVER_DIR run devser > "server.log" 2>&1 & disown
 
-# Start client
-npm --prefix $CLIENT_DIR run serve > "client.log" 2>&1 & disown
-print -c yellow "\nPlease, wait for the client to open...\n"
+if [ "$1" == "--prod" ]; then
+	# Start prod mode
+    npm --prefix $SERVER_DIR run start > "server.log" 2>&1 & disown
+    print -c green "\nApp is available on ${VUE_APP_BASE_URL}\n"
+else
+	# Start dev server
+    npm --prefix $SERVER_DIR run devser > "server.log" 2>&1 & disown
+
+	# Start dev client
+    npm --prefix $CLIENT_DIR run serve > "client.log" 2>&1 & disown
+    print -c yellow "\nPlease, wait for the client to open...\n"
+fi
+
