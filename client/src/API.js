@@ -1,7 +1,15 @@
 export default class API {
 
 	static async getData(query, opt = {}, expStatus = 200) {
-		const baseURL = process.env.VUE_APP_BASE_URL || "undefined";
+		let baseURL = '';
+
+		if (process.env.NODE_ENV === "production") {
+			baseURL = process.env.VUE_APP_BASE_URL;
+		} else if (process.env.NODE_ENV === "development") {
+			baseURL = "/api";
+		} else {
+			baseURL = "undefined";
+		}
 		const res = await fetch(baseURL + query, opt);
 
 		if (res.status !== expStatus)

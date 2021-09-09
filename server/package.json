@@ -4,7 +4,7 @@
   "description": "server-side of the app",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "NODE_ENV=production node main.js",
     "devser": "nodemon main.js"
   },
   "keywords": [],
