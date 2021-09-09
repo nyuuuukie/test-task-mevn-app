@@ -7,10 +7,24 @@
  * `npm` 
 
 ## Auto install
+> :warning: **If you are deploying app on VPS: update VUE_APP_BASE_URL by the URL of the backend**
+
+install.sh:
+```bash
+...
+# For example:
+SERVER_PORT=5000
+VUE_APP_BASE_URL="http://165.227.141.103:5000"
+...
+```
+
 Script `install.sh` will install and deploy the application using default parameters
 ```bash
-# To run production version specify --prod flag:
+# To run production version remove --prod flag:
 ./install.sh --prod
+
+# To run development version remove --prod flag:
+./install.sh
 ```
 
 ## Manual install
