@@ -20,10 +20,10 @@ VUE_APP_BASE_URL="http://165.227.141.103:5000"
 
 Script `install.sh` will install and deploy the application using default parameters
 ```bash
-# To run production version remove --prod flag:
+# Production version:
 ./install.sh --prod
 
-# To run development version remove --prod flag:
+# Development version:
 ./install.sh
 ```
 
