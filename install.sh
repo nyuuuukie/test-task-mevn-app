@@ -89,7 +89,10 @@ if [ "$?" -eq 1 ]; then
 fi
 
 if [ "$1" == "--prod" ]; then
-	# Start prod mode
+	# Build prod client
+    npm --prefix $CLIENT_DIR run build
+
+	# Start prod server
     NODE_ENV=production npm --prefix $SERVER_DIR run start > "server.log" 2>&1 & disown
     print -c green "\nApp is available on ${VUE_APP_BASE_URL}\n"
 else
