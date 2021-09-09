@@ -102,6 +102,6 @@ else
 
 	# Start dev client
     npm --prefix $CLIENT_DIR run serve > "client.log" 2>&1 & disown
-    print -c yellow "\nPlease, wait for the client to open...\n"
+    print -c green "\nApp is available on port 8080...\n"
 fi
 
