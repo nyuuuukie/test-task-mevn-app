@@ -27,9 +27,7 @@ export default {
 	methods: {
 	},
 	created() {
-		//console.log(this.providers);
-	}
-	
+	}	
 }
 </script>
 

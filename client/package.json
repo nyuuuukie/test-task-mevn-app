@@ -12,13 +12,9 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "babel-eslint": "^10.1.0",
     "dotenv-webpack": "^7.0.3",
-    "eslint-plugin-vue": "^7.15.1",
     "postcss": "^8.3.6"
   },
   "author": "Ilnur Timergaliev",

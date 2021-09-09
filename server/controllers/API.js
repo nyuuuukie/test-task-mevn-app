@@ -107,7 +107,6 @@ module.exports = class API {
 			order: req.body.order === 'asc' ? '' : '-',
 			key: req.body.key || 'name'
 		}
-		console.log(req.body);
 		try {
 			await Client.find()
 			.collation({locale: "en", strength: 1})

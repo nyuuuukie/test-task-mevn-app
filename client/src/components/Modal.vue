@@ -247,7 +247,6 @@ export default {
 			);
 			if (this.client.providers.length === prevLength)
 				this.client.providers.push({"id": id});
-			console.log(this.client.providers);
 		},
 		editProvider(id) {
 			let pr = this.allProvs.find(p => p._id === id);
