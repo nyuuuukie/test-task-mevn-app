@@ -1,10 +1,9 @@
-# mevn-app
-
-# Install & Run
-
-## Dependencies
+# MEVN-app
+# Dependencies
  * `node.js`
  * `npm` 
+
+# Install & Run
 
 ## Auto install
 > :warning: **If you are deploying app on VPS: update VUE_APP_BASE_URL by the URL of the backend**
