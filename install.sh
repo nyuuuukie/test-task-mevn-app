@@ -4,7 +4,7 @@
 SERVER_PORT=5000
 SERVER_DIR="server"
 CLIENT_DIR="client"
-VUE_APP_BASE_URL='http://165.227.141.103:5000'
+VUE_APP_BASE_URL='http://localhost:5000'
 
 isPortBusy()
 {
@@ -70,6 +70,7 @@ npm --prefix $CLIENT_DIR install
 
 # Create .env file
 echo "PORT=5000" >> "${SERVER_DIR}/.env"
+echo "PROD_DIST_FOLDER=$PWD/${CLIENT_DIR}/dist/" >> "${SERVER_DIR}/.env"
 echo "DB_USER='admin'" >> "${SERVER_DIR}/.env"
 echo "DB_PSWD='cwsRWSn5bJn1JWuB'" >> "${SERVER_DIR}/.env"
 echo "DB_PREFIX='mongodb'" >> "${SERVER_DIR}/.env"
