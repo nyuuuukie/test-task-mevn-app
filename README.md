@@ -69,6 +69,7 @@ containing following variables:
 ```bash
 # Port for backend:
 PORT = 5000
+PROD_DIST_FOLDER = "Path to the dist folder"
 
 # Connection parameters by string structure:
 # PREFIX://USER:PASSWORD@HOSTS`
