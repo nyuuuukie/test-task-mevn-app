@@ -68,17 +68,21 @@ npm --prefix $CLIENT_DIR install --save-dev "postcss@^8.1.0"
 npm --prefix $SERVER_DIR install
 npm --prefix $CLIENT_DIR install
 
-# Create .env file
-echo "PORT=5000" >> "${SERVER_DIR}/.env"
-echo "PROD_DIST_FOLDER=$PWD/${CLIENT_DIR}/dist/" >> "${SERVER_DIR}/.env"
-echo "DB_USER='admin'" >> "${SERVER_DIR}/.env"
-echo "DB_PSWD='cwsRWSn5bJn1JWuB'" >> "${SERVER_DIR}/.env"
-echo "DB_PREFIX='mongodb'" >> "${SERVER_DIR}/.env"
-echo "DB_HOSTS='mevn-app-shard-00-00.2lugr.mongodb.net:27017,mevn-app-shard-00-01.2lugr.mongodb.net:27017,mevn-app-shard-00-02.2lugr.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-piu695-shard-0&authSource=admin&retryWrites=true&w=majority'" >> "${SERVER_DIR}/.env"
-chmod ug+rwx "${SERVER_DIR}/.env"
+# Create .env files
+if [ ! -e "./${SERVER_DIR}/.env" ]; then
+	echo "PORT=5000" >> "${SERVER_DIR}/.env"
+	echo "PROD_DIST_FOLDER=$PWD/${CLIENT_DIR}/dist/" >> "${SERVER_DIR}/.env"
+	echo "DB_USER='admin'" >> "${SERVER_DIR}/.env"
+	echo "DB_PSWD='cwsRWSn5bJn1JWuB'" >> "${SERVER_DIR}/.env"
+	echo "DB_PREFIX='mongodb'" >> "${SERVER_DIR}/.env"
+	echo "DB_HOSTS='mevn-app-shard-00-00.2lugr.mongodb.net:27017,mevn-app-shard-00-01.2lugr.mongodb.net:27017,mevn-app-shard-00-02.2lugr.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-piu695-shard-0&authSource=admin&retryWrites=true&w=majority'" >> "${SERVER_DIR}/.env"
+	chmod ug+rwx "${SERVER_DIR}/.env"
+fi
 
-echo "VUE_APP_BASE_URL='${VUE_APP_BASE_URL}'" > "${CLIENT_DIR}/.env"
-chmod ug+rwx "${CLIENT_DIR}/.env"
+if [ ! -e "./${CLIENT_DIR}/.env" ]; then
+    echo "VUE_APP_BASE_URL='${VUE_APP_BASE_URL}'" > "${CLIENT_DIR}/.env"
+    chmod ug+rwx "${CLIENT_DIR}/.env"
+fi
 
 
 # Check if port is busy
