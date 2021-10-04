@@ -1,6 +1,6 @@
 # MEVN-app
 # Demo
- You can try demo by [this](https://165.227.141.103:5000) link.
+ You can try demo by [this](http://165.227.141.103:5000) link.
 
 # Dependencies
  * `node.js`
