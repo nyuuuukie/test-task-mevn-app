@@ -4,7 +4,7 @@
 SERVER_PORT=5000
 SERVER_DIR="server"
 CLIENT_DIR="client"
-VUE_APP_BASE_URL='http://localhost:5000'
+VUE_APP_BASE_URL='http://165.227.141.103:5000'
 
 isPortBusy()
 {

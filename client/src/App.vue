@@ -30,6 +30,7 @@ html {
 }
 
 body {
+	height: 100vh;
 	margin: 10px;
 	min-width: 200px;
 	display: flex;

@@ -104,10 +104,6 @@ export default {
 	}
 
 	.modal {
-		position: absolute;
-		margin: 0 auto;
-		top: 0%;
-		left: calc(40% - 50px);
 		z-index: 2;
 	}
 </style>

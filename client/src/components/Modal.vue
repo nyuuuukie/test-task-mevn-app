@@ -380,12 +380,13 @@ export default {
 
 
 	.modal {
-		position: absolute;
 		align-self: center;
 		justify-self: center;
-		/*top:0%;*/
-		/*left: calc(50% - 70vw / 2);*/
 		/*z-index: 1;*/
+		position: absolute;
+    		left: 50%;
+    		top: 50%;
+    		transform: translate(-50%, -50%);		
 		
 		background-color: #fdfdfd;
 		box-shadow: 1px 2px 3px #8b8b8b;
