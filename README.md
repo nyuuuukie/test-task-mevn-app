@@ -1,4 +1,7 @@
 # MEVN-app
+# Demo
+ You can try demo by [this](http://165.227.141.103:5000) link.
+
 # Dependencies
  * `node.js`
  * `npm` 
@@ -6,9 +9,7 @@
 # Install & Run
 
 ## Auto install
-> :warning: **If you are deploying app on VPS: update VUE_APP_BASE_URL by the URL of the backend**
-
-install.sh:
+> :warning: If you are **deploying app on VPS**: update VUE_APP_BASE_URL and SERVER_PORT in **install.sh**
 ```bash
 ...
 # For example:
@@ -17,9 +18,13 @@ VUE_APP_BASE_URL="http://165.227.141.103:5000"
 ...
 ```
 
+### .env
+> Do not forget to create .env files with connection parameteres <br>
+> (see example in .env section of manual install)
+
 Script `install.sh` will install and deploy the application using default parameters
 ```bash
-# Production version:
+# Production version (recommended):
 ./install.sh --prod
 
 # Development version:
